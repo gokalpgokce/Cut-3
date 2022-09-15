@@ -2,10 +2,23 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public GameObject _mainUIGO;
+    [Header("Scene References")]
+    public GameObject mainUIGO;
     
-    public void ShowMainUI() 
+    public void ShowMainUI()
     {
-        _mainUIGO.SetActive(true);
+        mainUIGO.SetActive(true);
+    }
+    
+    public void HideMainUI()
+    {
+        mainUIGO.SetActive(false);
+    }
+    
+    public void OnPlayClicked()
+    {
+        HideMainUI();
+        
+        Game.Instance.PlayGame();
     }
 }

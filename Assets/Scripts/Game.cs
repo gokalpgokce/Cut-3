@@ -28,6 +28,7 @@ public class Game : MonoBehaviour
     public void InitGame()
     {
         CreateGrid();
+        RandomPaintColor();
     }
     
     private void CreateGrid()
@@ -36,5 +37,17 @@ public class Game : MonoBehaviour
         var gridGO = GameObject.Instantiate(gridPrefab, Vector3.zero, Quaternion.identity, transform);
         _grid = gridGO.GetComponent<Grid>();
         _grid.Init(9, 9);
+    }
+
+    public void RandomPaintColor()
+    {
+        // paint cell randomly
+        Cell tempCell = _grid.GetCell(2, 3);
+        tempCell.ChangeCellColor(RandomColor());
+    }
+
+    public Color RandomColor()
+    {
+        return Color.blue;
     }
 }

@@ -6,7 +6,7 @@ public class Grid : MonoBehaviour
     [Header("Scene References")]
     public Transform CellContainer;
     
-    public Cell[,] _cells;
+    private Cell[,] _cells;
     public int RowCount;
     public int ColCount;
     
@@ -33,5 +33,11 @@ public class Grid : MonoBehaviour
         
         // Adjust CellContainer Position
         CellContainer.position = new Vector3(-rowCount / 2.0f, -colCount / 2.0f);
+    }
+
+    public Cell GetCell(int row,int col)
+    {
+        // get cell number
+        return _cells[row,col];
     }
 }

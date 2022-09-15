@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row: 0
   Col: 0
+  visual: {fileID: 4906904914821400018}
 --- !u!1 &4906904914821400018
 GameObject:
   m_ObjectHideFlags: 0

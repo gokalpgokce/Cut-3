@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 868aea9faf2c48247a9627dcff89d534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 519420031}
+  uiController: {fileID: 320165351}
   gridPrefab: {fileID: 6842598950987772884, guid: 5bd6776ad0868264f8b46ef3d6b79fe3, type: 3}
   cellPrefab: {fileID: 3689958704372060357, guid: f148ea53610f8aa45a7c039c0c09d9e2, type: 3}
 --- !u!1 &320165349

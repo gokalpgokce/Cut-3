@@ -2,22 +2,34 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+    [Header("Scene References")]
+    public Camera cam;
+    public UIController uiController;
+    
     [Header("Prefab References")]
     public GameObject gridPrefab;
     public GameObject cellPrefab;
     
-    private static Game _instance;
+    public const int DefaultRowCount = 12;
+    public const int DefaultColCount = 9;
     
     private Grid _grid;
+    
+    // Singleton
+    private static Game _instance;
+    public static Game Instance
+    {
+        get { return _instance; }
+    }
     
     void Awake()
     {
         _instance = this;
     }
     
-    public static Game Instance
+    void Start()
     {
-        get { return _instance; }
+        CalculateOrthographicSize();
     }
     
     public void PlayGame()
@@ -36,7 +48,7 @@ public class Game : MonoBehaviour
         // Instantiate grid prefab under this (Game) gameobject
         var gridGO = GameObject.Instantiate(gridPrefab, Vector3.zero, Quaternion.identity, transform);
         _grid = gridGO.GetComponent<Grid>();
-        _grid.Init(9, 9);
+        _grid.Init(DefaultRowCount, DefaultColCount);
     }
 
     public void PaintCell()
@@ -57,4 +69,22 @@ public class Game : MonoBehaviour
         int randomResult = Random.Range(0, cellTypes.Length);
         return cellTypes[randomResult];
     }
+    
+    private void CalculateOrthographicSize()
+    {
+        float size = (Screen.height / 2.0f * 5.0f) / (Screen.width / 2.0f);
+        size = Mathf.Max(size, DefaultRowCount / 2.0f + 1.0f);
+        cam.orthographicSize = size;
+    }
+    
+#if true
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(25, 25, 150, 100), "Calcuate"))
+        {
+            CalculateOrthographicSize();
+            _grid.CellContainer.position = new Vector3(-(float)_grid.ColCount / 2.0f + 0.5f, -(float)_grid.RowCount / 2.0f + 0.5f);
+        }
+    }
+#endif
 }

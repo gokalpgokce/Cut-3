@@ -22,7 +22,7 @@ public class Grid : MonoBehaviour
         {
             for (int j = 0; j < colCount; j++)
             {
-                var cellPos = new Vector3(i, j);
+                var cellPos = new Vector3(j, i);
                 var cellPrefab = Game.Instance.cellPrefab;
                 var cellGO = GameObject.Instantiate(cellPrefab, cellPos, Quaternion.identity, CellContainer);
                 var cell = cellGO.GetComponent<Cell>();
@@ -32,8 +32,7 @@ public class Grid : MonoBehaviour
         }
         
         // Adjust CellContainer Position
-        CellContainer.position = new Vector3(-rowCount / 2.0f, -colCount / 2.0f);
-        
+        CellContainer.position = new Vector3(-(float)colCount / 2.0f + 0.5f, -(float)rowCount / 2.0f + 0.5f);
     }
 
     public Cell GetCell(int row,int col)

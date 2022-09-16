@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
     public void InitGame()
     {
         CreateGrid();
-        RandomPaintColor();
+        PaintCell();
     }
     
     private void CreateGrid()
@@ -39,15 +39,22 @@ public class Game : MonoBehaviour
         _grid.Init(9, 9);
     }
 
-    public void RandomPaintColor()
+    public void PaintCell()
     {
-        // paint cell randomly
-        Cell tempCell = _grid.GetCell(2, 3);
-        tempCell.ChangeCellColor(RandomColor());
+        for (int i = 0; i < _grid.RowCount; i++)
+        {
+            for (int j = 0; j < _grid.ColCount; j++)
+            {
+                Cell paintedCell = _grid.GetCell(i,j);
+                paintedCell.ChangeCellType(GetRandomCellType());
+            }
+        }
     }
 
-    public Color RandomColor()
+    public CellType GetRandomCellType()
     {
-        return Color.blue;
+        CellType[] cellTypes = new[] {CellType.Red, CellType.Blue, CellType.Yellow, CellType.Green, CellType.Magenta};
+        int randomResult = Random.Range(0, cellTypes.Length);
+        return cellTypes[randomResult];
     }
 }

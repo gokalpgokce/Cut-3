@@ -33,6 +33,7 @@ public class Grid : MonoBehaviour
         
         // Adjust CellContainer Position
         CellContainer.position = new Vector3(-rowCount / 2.0f, -colCount / 2.0f);
+        
     }
 
     public Cell GetCell(int row,int col)

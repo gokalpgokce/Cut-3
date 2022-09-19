@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -12,6 +13,8 @@ public class Game : MonoBehaviour
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
+    
+    private int _countNeighbors;
     
     private Grid _grid;
     
@@ -41,6 +44,7 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         PaintCell();
+        FindNeighbors();
     }
     
     private void CreateGrid()
@@ -58,7 +62,7 @@ public class Game : MonoBehaviour
             for (int j = 0; j < _grid.ColCount; j++)
             {
                 Cell paintedCell = _grid.GetCell(i,j);
-                paintedCell.ChangeCellType(GetRandomCellType());
+                paintedCell.CellType = GetRandomCellType();
             }
         }
     }
@@ -69,7 +73,38 @@ public class Game : MonoBehaviour
         int randomResult = Random.Range(0, cellTypes.Length);
         return cellTypes[randomResult];
     }
+
+    public void FindNeighbors()
+    {
+        Cell centerCell = _grid.GetCell(2, 2);
+        CellType centerCellType = centerCell.CellType;
+        List<Cell> matchCells = new List<Cell>();
+        List<Cell> neighborCells = GetNeighborsCell(centerCell.Row,centerCell.Col);
+        
+        for (int i = 0; i < neighborCells.Count; i++)
+        {
+            CellType neighborCellType = neighborCells[i].CellType;
+            if (centerCellType == neighborCellType)
+            {
+                matchCells.Add(neighborCells[i]);
+            }
+        }
+    }
     
+    public List<Cell> GetNeighborsCell(int row,int col)
+    {
+        List<Cell> neighborsCells = new List<Cell>();
+        Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
+
+        for (int i = 0; i < directions.Length; i++)
+        {
+            Vector2 direction = directions[i];
+            Cell neighborCell = _grid.GetCell(row+(int)direction.x, col+(int)direction.y);
+            neighborsCells.Add(neighborCell);
+        }
+        return neighborsCells;
+    }
+
     private void CalculateOrthographicSize()
     {
         float size = (Screen.height / 2.0f * 5.0f) / (Screen.width / 2.0f);

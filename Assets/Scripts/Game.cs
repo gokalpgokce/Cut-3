@@ -10,14 +10,12 @@ public class Game : MonoBehaviour
     [Header("Prefab References")]
     public GameObject gridPrefab;
     public GameObject cellPrefab;
-    
-    public const int DefaultRowCount = 12;
-    public const int DefaultColCount = 9;
-    
-    private int _countNeighbors;
-    
     private Grid _grid;
     
+    private const int DefaultRowCount = 12;
+    private const int DefaultColCount = 9;
+    private int _countNeighbors;
+
     // Singleton
     private static Game _instance;
     public static Game Instance
@@ -44,7 +42,7 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         PaintCell();
-        _grid.FindNeihborsOfCell(_grid.GetCell(2,2));  // col row
+        _grid.FindNeihborsOfCell(_grid.GetCell(2,2));
     }
     
     private void CreateGrid()

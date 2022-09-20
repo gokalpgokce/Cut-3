@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
@@ -32,7 +34,12 @@ public class Game : MonoBehaviour
     {
         CalculateOrthographicSize();
     }
-    
+
+    private void Update()
+    {
+        FindMousePos();
+    }
+
     public void PlayGame()
     {
         InitGame();
@@ -70,6 +77,21 @@ public class Game : MonoBehaviour
         CellType[] cellTypes = new[] {CellType.Red, CellType.Blue, CellType.Yellow, CellType.Green, CellType.Magenta};
         int randomResult = Random.Range(0, cellTypes.Length);
         return cellTypes[randomResult];
+    }
+
+    public void FindMousePos()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float mouseGamePosX = mouseWorldPos.x + (DefaultColCount/2f);
+            float mouseGamePosY = mouseWorldPos.y + (DefaultRowCount/2f);
+            if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < 9 && mouseGamePosY < 12)
+            {
+                Debug.Log("mouse world pos: " + mouseWorldPos);
+                Debug.Log("selected cell: " +(int)mouseGamePosX + ", " + (int)mouseGamePosY);
+            }
+        }
     }
 
     private void CalculateOrthographicSize()

@@ -86,7 +86,7 @@ public class Game : MonoBehaviour
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             float mouseGamePosX = mouseWorldPos.x + (DefaultColCount/2f);
             float mouseGamePosY = mouseWorldPos.y + (DefaultRowCount/2f);
-            if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < 9 && mouseGamePosY < 12)
+            if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < DefaultColCount && mouseGamePosY < DefaultRowCount)
             {
                 Debug.Log("mouse world pos: " + mouseWorldPos);
                 Debug.Log("selected cell: " +(int)mouseGamePosX + ", " + (int)mouseGamePosY);

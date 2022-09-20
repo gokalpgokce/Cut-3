@@ -44,7 +44,7 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         PaintCell();
-        FindNeighbors();
+        FindNeihborsofCell(_grid.GetCell(2,2));
     }
     
     private void CreateGrid()
@@ -67,6 +67,24 @@ public class Game : MonoBehaviour
         }
     }
 
+    public void FindNeihborsofCell(Cell centerCell)
+    {
+        List<Cell> neighbors = new List<Cell>();
+        neighbors.Add(centerCell);
+        GetNeighborsCell(centerCell, neighbors);
+        for (var index = 0; index < neighbors.Count; index++)
+        {
+            var cell = neighbors[index];
+            GetNeighborsCell(cell, neighbors);
+        }
+
+        foreach (var cell in neighbors)
+        {
+            Debug.Log("cell of neighbors: " + cell.Row+ "," + cell.Col);
+        }
+        
+    }
+
     public CellType GetRandomCellType()
     {
         CellType[] cellTypes = new[] {CellType.Red, CellType.Blue, CellType.Yellow, CellType.Green, CellType.Magenta};
@@ -74,35 +92,36 @@ public class Game : MonoBehaviour
         return cellTypes[randomResult];
     }
 
-    public void FindNeighbors()
-    {
-        Cell centerCell = _grid.GetCell(2, 2);
-        CellType centerCellType = centerCell.CellType;
-        List<Cell> matchCells = new List<Cell>();
-        List<Cell> neighborCells = GetNeighborsCell(centerCell.Row,centerCell.Col);
-        
-        for (int i = 0; i < neighborCells.Count; i++)
-        {
-            CellType neighborCellType = neighborCells[i].CellType;
-            if (centerCellType == neighborCellType)
-            {
-                matchCells.Add(neighborCells[i]);
-            }
-        }
-    }
+    // public void FindNeighborsDeep()
+    // {
+    //     Cell centerCell = _grid.GetCell(2, 2);
+    //     CellType centerCellType = centerCell.CellType;
+    //     List<Cell> matchCells = new List<Cell>();
+    //     List<Cell> neighborCells = GetNeighborsCell(centerCell.Row,centerCell.Col);
+    //     
+    //     for (int i = 0; i < neighborCells.Count; i++)
+    //     {
+    //         CellType neighborCellType = neighborCells[i].CellType;
+    //         if (centerCellType == neighborCellType)
+    //         {
+    //             matchCells.Add(neighborCells[i]);
+    //         }
+    //     }
+    // }
     
-    public List<Cell> GetNeighborsCell(int row,int col)
+    public void GetNeighborsCell(Cell cell, List<Cell> neighbors)
     {
-        List<Cell> neighborsCells = new List<Cell>();
         Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
 
         for (int i = 0; i < directions.Length; i++)
         {
             Vector2 direction = directions[i];
-            Cell neighborCell = _grid.GetCell(row+(int)direction.x, col+(int)direction.y);
-            neighborsCells.Add(neighborCell);
+            Cell neighborCell = _grid.GetCell(cell.Row+(int)direction.y, cell.Col+(int)direction.x);
+            if (neighborCell != null && cell.CellType == neighborCell.CellType && !neighbors.Contains(neighborCell))
+            {
+                neighbors.Add(neighborCell);
+            }
         }
-        return neighborsCells;
     }
 
     private void CalculateOrthographicSize()

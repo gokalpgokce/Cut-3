@@ -10,14 +10,12 @@ public class Game : MonoBehaviour
     [Header("Prefab References")]
     public GameObject gridPrefab;
     public GameObject cellPrefab;
-    
-    public const int DefaultRowCount = 12;
-    public const int DefaultColCount = 9;
-    
-    private int _countNeighbors;
-    
     private Grid _grid;
     
+    private const int DefaultRowCount = 12;
+    private const int DefaultColCount = 9;
+    private int _countNeighbors;
+
     // Singleton
     private static Game _instance;
     public static Game Instance
@@ -44,7 +42,7 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         PaintCell();
-        FindNeihborsofCell(_grid.GetCell(2,2));
+        _grid.FindNeihborsOfCell(_grid.GetCell(2,2));
     }
     
     private void CreateGrid()
@@ -52,7 +50,7 @@ public class Game : MonoBehaviour
         // Instantiate grid prefab under this (Game) gameobject
         var gridGO = GameObject.Instantiate(gridPrefab, Vector3.zero, Quaternion.identity, transform);
         _grid = gridGO.GetComponent<Grid>();
-        _grid.Init(DefaultRowCount, DefaultColCount);
+        _grid.Init(DefaultColCount, DefaultRowCount);
     }
 
     public void PaintCell()
@@ -61,28 +59,10 @@ public class Game : MonoBehaviour
         {
             for (int j = 0; j < _grid.ColCount; j++)
             {
-                Cell paintedCell = _grid.GetCell(i,j);
+                Cell paintedCell = _grid.GetCell(j,i);
                 paintedCell.CellType = GetRandomCellType();
             }
         }
-    }
-
-    public void FindNeihborsofCell(Cell centerCell)
-    {
-        List<Cell> neighbors = new List<Cell>();
-        neighbors.Add(centerCell);
-        GetNeighborsCell(centerCell, neighbors);
-        for (var index = 0; index < neighbors.Count; index++)
-        {
-            var cell = neighbors[index];
-            GetNeighborsCell(cell, neighbors);
-        }
-
-        foreach (var cell in neighbors)
-        {
-            Debug.Log("cell of neighbors: " + cell.Row+ "," + cell.Col);
-        }
-        
     }
 
     public CellType GetRandomCellType()
@@ -90,38 +70,6 @@ public class Game : MonoBehaviour
         CellType[] cellTypes = new[] {CellType.Red, CellType.Blue, CellType.Yellow, CellType.Green, CellType.Magenta};
         int randomResult = Random.Range(0, cellTypes.Length);
         return cellTypes[randomResult];
-    }
-
-    // public void FindNeighborsDeep()
-    // {
-    //     Cell centerCell = _grid.GetCell(2, 2);
-    //     CellType centerCellType = centerCell.CellType;
-    //     List<Cell> matchCells = new List<Cell>();
-    //     List<Cell> neighborCells = GetNeighborsCell(centerCell.Row,centerCell.Col);
-    //     
-    //     for (int i = 0; i < neighborCells.Count; i++)
-    //     {
-    //         CellType neighborCellType = neighborCells[i].CellType;
-    //         if (centerCellType == neighborCellType)
-    //         {
-    //             matchCells.Add(neighborCells[i]);
-    //         }
-    //     }
-    // }
-    
-    public void GetNeighborsCell(Cell cell, List<Cell> neighbors)
-    {
-        Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
-
-        for (int i = 0; i < directions.Length; i++)
-        {
-            Vector2 direction = directions[i];
-            Cell neighborCell = _grid.GetCell(cell.Row+(int)direction.y, cell.Col+(int)direction.x);
-            if (neighborCell != null && cell.CellType == neighborCell.CellType && !neighbors.Contains(neighborCell))
-            {
-                neighbors.Add(neighborCell);
-            }
-        }
     }
 
     private void CalculateOrthographicSize()

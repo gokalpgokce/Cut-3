@@ -37,7 +37,10 @@ public class Grid : MonoBehaviour
 
     public Cell GetCell(int row,int col)
     {
-        // get cell number
+        if (row < 0 || col < 0 || row > RowCount || col > ColCount)
+        {
+            return null;
+        }
         return _cells[row,col];
     }
 }

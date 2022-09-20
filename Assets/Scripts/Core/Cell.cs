@@ -13,12 +13,18 @@ public class Cell : MonoBehaviour
         Col = col;
     }
 
-    public void ChangeCellType(CellType cellType)
+    public CellType CellType
     {
-        // change cell color
-        _cellType = cellType;
-        Color color = CellTypeToColor(_cellType);
-        visual.GetComponent<SpriteRenderer>().color = color;
+        get
+        {
+            return _cellType;
+        }
+        set
+        {
+            _cellType = value;
+            Color color = CellTypeToColor(_cellType);
+            visual.GetComponent<SpriteRenderer>().color = color;
+        }
     }
 
     public Color CellTypeToColor(CellType type)

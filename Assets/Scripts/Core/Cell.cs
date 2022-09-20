@@ -7,7 +7,7 @@ public class Cell : MonoBehaviour
     public GameObject visual;
     private CellType _cellType;
     
-    public void Init(int row, int col)
+    public void Init(int col, int row)
     {
         Row = row;
         Col = col;

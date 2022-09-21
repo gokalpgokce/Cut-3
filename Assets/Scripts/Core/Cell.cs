@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public int Row;
     public int Col;
+    public int Row;
     public GameObject visual;
     private CellType _cellType;
     
     public void Init(int col, int row)
     {
-        Row = row;
         Col = col;
+        Row = row;
     }
 
     public CellType CellType
@@ -46,5 +46,10 @@ public class Cell : MonoBehaviour
                 color = Color.black; break;
         }
         return color;
+    }
+
+    public override string ToString()
+    {
+        return string.Format("col:{0},row:{1}, cellType:{2} ", Col, Row,_cellType);
     }
 }

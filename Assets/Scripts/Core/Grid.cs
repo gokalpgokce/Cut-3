@@ -7,25 +7,25 @@ public class Grid : MonoBehaviour
     public Transform CellContainer;
     
     private Cell[,] _cells;
-    public int RowCount;
     public int ColCount;
-    
+    public int RowCount;
+
     public void Init(int colCount, int rowCount)
     {
         _cells = new Cell[colCount, rowCount];
-        RowCount = rowCount;
         ColCount = colCount;
+        RowCount = rowCount;
         // Create Cells
-        for (int i = 0; i < rowCount; i++)
+        for (int i = 0; i < colCount; i++)
         {
-            for (int j = 0; j < colCount; j++)
+            for (int j = 0; j < rowCount; j++)
             {
-                var cellPos = new Vector3(j, i);
+                var cellPos = new Vector3(i, j);
                 var cellPrefab = Game.Instance.cellPrefab;
                 var cellGO = GameObject.Instantiate(cellPrefab, cellPos, Quaternion.identity, CellContainer);
                 var cell = cellGO.GetComponent<Cell>();
-                cell.Init(j, i);
-                _cells[j, i] = cell;
+                cell.Init(i, j);
+                _cells[i, j] = cell;
             }
         }
         // Adjust CellContainer Position
@@ -34,14 +34,14 @@ public class Grid : MonoBehaviour
 
     public Cell GetCell(int col,int row)
     {
-        if (row < 0 || col < 0 || row > RowCount || col > ColCount)
+        if (col < 0 || row < 0 || col > ColCount-1 || row > RowCount-1)
         {
             return null;
         }
         return _cells[col,row];
     }
     
-    public void FindNeihborsOfCell(Cell centerCell)
+    public List<Cell> FindNeihborsOfCell(Cell centerCell)
     {
         List<Cell> neighbors = new List<Cell>();
         neighbors.Add(centerCell);
@@ -51,10 +51,7 @@ public class Grid : MonoBehaviour
             var cell = neighbors[index];
             GetNeighborsCell(cell, neighbors);
         }
-        foreach (var cell in neighbors)
-        {
-            Debug.Log("cell of neighbors: " + cell.Col+ "," + cell.Row);
-        }
+        return neighbors;
     }
     
     public void GetNeighborsCell(Cell cell, List<Cell> neighbors)

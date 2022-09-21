@@ -64,11 +64,11 @@ public class Game : MonoBehaviour
 
     public void PaintCell()
     {
-        for (int i = 0; i < _grid.RowCount; i++)
+        for (int i = 0; i < _grid.ColCount; i++)
         {
-            for (int j = 0; j < _grid.ColCount; j++)
+            for (int j = 0; j < _grid.RowCount; j++)
             {
-                Cell paintedCell = _grid.GetCell(j,i);
+                Cell paintedCell = _grid.GetCell(i,j);
                 paintedCell.CellType = GetRandomCellType();
             }
         }
@@ -85,14 +85,17 @@ public class Game : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
             float mouseGamePosX = mouseWorldPos.x + (_grid.ColCount/2f);
             float mouseGamePosY = mouseWorldPos.y + (_grid.RowCount/2f);
             if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < DefaultColCount && mouseGamePosY < DefaultRowCount)
             {
-                Debug.Log("mouse world pos: " + mouseWorldPos);
-                Debug.Log("selected cell: " +(int)mouseGamePosY + ", " + (int)mouseGamePosX);
-                _grid.FindNeihborsOfCell(_grid.GetCell((int)mouseGamePosY,(int)mouseGamePosX));
+                Cell testCell = _grid.GetCell((int) mouseGamePosX, (int) mouseGamePosY);
+                List<Cell> testList = _grid.FindNeihborsOfCell(testCell);
+                // foreach (var cell in testList)
+                // {
+                //     Debug.Log("cell of neighbors: " + cell);
+                // }
             }
         }
     }

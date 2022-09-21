@@ -41,30 +41,58 @@ public class Grid : MonoBehaviour
         return _cells[col,row];
     }
     
-    public List<Cell> FindNeihborsOfCell(Cell centerCell)
+    // public List<Cell> FindNeighborsOfCell(Cell centerCell)
+    // {
+    //     List<Cell> neighbors = new List<Cell>();
+    //     neighbors.Add(centerCell);
+    //     GetNeighborsCell(centerCell, neighbors);
+    //     for (var index = 0; index < neighbors.Count; index++)
+    //     {
+    //         var cell = neighbors[index];
+    //         GetNeighborsCell(cell, neighbors);
+    //     }
+    //     return neighbors;
+    // }
+    
+    public List<Cell> FindCutNeighborsOfCell(Cell centerCell, Cell blockCell)
     {
-        List<Cell> neighbors = new List<Cell>();
-        neighbors.Add(centerCell);
-        GetNeighborsCell(centerCell, neighbors);
-        for (var index = 0; index < neighbors.Count; index++)
+        List<Cell> cutNeighbors = new List<Cell>();
+        cutNeighbors.Add(centerCell);
+        GetCutNeighborsCell(centerCell, blockCell, cutNeighbors);
+        for (var index = 0; index < cutNeighbors.Count; index++)
         {
-            var cell = neighbors[index];
-            GetNeighborsCell(cell, neighbors);
+            var cell = cutNeighbors[index];
+            GetCutNeighborsCell(cell, blockCell,cutNeighbors);
         }
-        return neighbors;
+        return cutNeighbors;
     }
     
-    public void GetNeighborsCell(Cell cell, List<Cell> neighbors)
+    // public void GetNeighborsCell(Cell cell, List<Cell> neighbors)
+    // {
+    //     Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
+    //
+    //     for (int i = 0; i < directions.Length; i++)
+    //     {
+    //         Vector2 direction = directions[i];
+    //         Cell neighborCell = GetCell(cell.Col+(int)direction.x, cell.Row+(int)direction.y);
+    //         if (neighborCell != null && cell.CellType == neighborCell.CellType && !neighbors.Contains(neighborCell))
+    //         {
+    //             neighbors.Add(neighborCell);
+    //         }
+    //     }
+    // }
+    
+    public void GetCutNeighborsCell(Cell centerCell, Cell blockCell, List<Cell> neighbors)
     {
         Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
 
         for (int i = 0; i < directions.Length; i++)
         {
             Vector2 direction = directions[i];
-            Cell neighborCell = GetCell(cell.Col+(int)direction.x, cell.Row+(int)direction.y);
-            if (neighborCell != null && cell.CellType == neighborCell.CellType && !neighbors.Contains(neighborCell))
+            Cell cutNeighborCell = GetCell(centerCell.Col+(int)direction.x, centerCell.Row+(int)direction.y);
+            if (cutNeighborCell != null && centerCell.CellType == cutNeighborCell.CellType && !neighbors.Contains(cutNeighborCell) && cutNeighborCell != blockCell)
             {
-                neighbors.Add(neighborCell);
+                neighbors.Add(cutNeighborCell);
             }
         }
     }

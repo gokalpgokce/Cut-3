@@ -17,6 +17,7 @@ public class Game : MonoBehaviour
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
     private int _countNeighbors;
+    public bool isHorizontal;
 
     // Singleton
     private static Game _instance;
@@ -84,7 +85,7 @@ public class Game : MonoBehaviour
             if (mouseGridPos.x >= 0 && mouseGridPos.y >= 0 && mouseGridPos.x < DefaultColCount && mouseGridPos.y < DefaultRowCount)
             {
                 Cell testCell = _grid.GetCell((int) mouseGridPos.x, (int) mouseGridPos.y);
-                List<Cell> testList = _grid.FindNeihborsOfCell(testCell);
+                List<Cell> testList = _grid.FindCutNeighborsOfCell(testCell,null);
                 // foreach (var cell in testList)
                 // {
                 //     Debug.Log("cell of neighbors: " + cell);
@@ -97,7 +98,7 @@ public class Game : MonoBehaviour
     {
         Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
         Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
-        bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
+        isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
         Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
         List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
         CheckValidCut(foundedCells[0],foundedCells[1]);
@@ -114,6 +115,20 @@ public class Game : MonoBehaviour
         {
             return false;
         }
+
+        List<Cell> cutLeftUpNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell1,cell2);
+        List<Cell> cutRightDownNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell2,cell1);
+        for (int i = 0; i < cutLeftUpNeighborsOfCell.Count; i++)
+        {
+            Debug.Log("Left or Top neighbors cell after cut: " + cutLeftUpNeighborsOfCell[i]);   
+        }
+        Debug.Log("********************************");
+        for (int i = 0; i < cutRightDownNeighborsOfCell.Count; i++)
+        {
+            Debug.Log("Right or Down neighbors cell after cut: " + cutRightDownNeighborsOfCell[i]);   
+        }
+
+
         // TODO: find neighbors cell1 cell2
         return true;
     }

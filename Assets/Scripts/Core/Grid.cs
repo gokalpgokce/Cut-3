@@ -68,4 +68,40 @@ public class Grid : MonoBehaviour
             }
         }
     }
+
+    public Vector3 MousePosToGridPos(Vector3 mousePos)
+    {
+        Vector3 mouseWorldPos = Game.Instance.cam.ScreenToWorldPoint(mousePos);
+        float mouseGamePosX = mouseWorldPos.x + (ColCount/2f);
+        float mouseGamePosY = mouseWorldPos.y + (RowCount/2f);
+        return new Vector3(mouseGamePosX, mouseGamePosY,0f);
+    }
+
+    public List<Cell> FindNearCell(bool isHorizontal, Vector3 position)
+    {
+        List<Cell> foundCells = new List<Cell>(2);
+        if (isHorizontal)
+        {
+            int topCellRow = Mathf.RoundToInt(position.y);
+            int downCellRow = topCellRow - 1;
+            int cellCol = (int)position.x;
+
+            Cell topCell = GetCell(cellCol, topCellRow);
+            Cell downCell = GetCell(cellCol, downCellRow);
+            foundCells.Add(topCell);
+            foundCells.Add(downCell);
+        }
+        else
+        {
+            int rightCellCol = Mathf.RoundToInt(position.x);
+            int leftCellCol = rightCellCol - 1;
+            int cellRow = (int)position.y;
+
+            Cell leftCell = GetCell(leftCellCol, cellRow);
+            Cell rightCell = GetCell(rightCellCol, cellRow);
+            foundCells.Add(leftCell);
+            foundCells.Add(rightCell);
+        }
+        return foundCells;
+    }
 }

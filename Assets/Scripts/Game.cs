@@ -14,8 +14,8 @@ public class Game : MonoBehaviour
     public GameObject cellPrefab;
     private Grid _grid;
     
-    private const int DefaultRowCount = 12;
-    private const int DefaultColCount = 9;
+    public const int DefaultRowCount = 12;
+    public const int DefaultColCount = 9;
     private int _countNeighbors;
 
     // Singleton
@@ -28,11 +28,6 @@ public class Game : MonoBehaviour
     void Awake()
     {
         _instance = this;
-    }
-    
-    void Start()
-    {
-        CalculateOrthographicSize();
     }
 
     private void Update()
@@ -85,12 +80,10 @@ public class Game : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-            float mouseGamePosX = mouseWorldPos.x + (_grid.ColCount/2f);
-            float mouseGamePosY = mouseWorldPos.y + (_grid.RowCount/2f);
-            if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < DefaultColCount && mouseGamePosY < DefaultRowCount)
+            Vector3 mouseGridPos = _grid.MousePosToGridPos(Input.mousePosition);
+            if (mouseGridPos.x >= 0 && mouseGridPos.y >= 0 && mouseGridPos.x < DefaultColCount && mouseGridPos.y < DefaultRowCount)
             {
-                Cell testCell = _grid.GetCell((int) mouseGamePosX, (int) mouseGamePosY);
+                Cell testCell = _grid.GetCell((int) mouseGridPos.x, (int) mouseGridPos.y);
                 List<Cell> testList = _grid.FindNeihborsOfCell(testCell);
                 // foreach (var cell in testList)
                 // {
@@ -100,21 +93,28 @@ public class Game : MonoBehaviour
         }
     }
 
-    private void CalculateOrthographicSize()
+    public void OnSwipe(Vector3 swipeStartMouse, Vector3 swipeEndMouse)
     {
-        float size = (Screen.height / 2.0f * 5.0f) / (Screen.width / 2.0f);
-        size = Mathf.Max(size, DefaultRowCount / 2.0f + 1.0f);
-        cam.orthographicSize = size;
+        Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
+        Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
+        bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
+        Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
+        List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
+        CheckValidCut(foundedCells[0],foundedCells[1]);
     }
-    
-#if true
-    void OnGUI()
+
+    public bool CheckValidCut(Cell cell1, Cell cell2)
     {
-        if (GUI.Button(new Rect(25, 25, 150, 100), "Calcuate"))
+        if (cell1 == null || cell2 == null)
         {
-            CalculateOrthographicSize();
-            _grid.CellContainer.position = new Vector3(-(float)_grid.ColCount / 2.0f + 0.5f, -(float)_grid.RowCount / 2.0f + 0.5f);
+            return false;
         }
+
+        if (cell1.CellType != cell2.CellType)
+        {
+            return false;
+        }
+        // TODO: find neighbors cell1 cell2
+        return true;
     }
-#endif
 }

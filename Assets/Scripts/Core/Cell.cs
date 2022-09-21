@@ -47,4 +47,9 @@ public class Cell : MonoBehaviour
         }
         return color;
     }
+
+    public override string ToString()
+    {
+        return string.Format("col:{0},row:{1}", Col, Row);
+    }
 }

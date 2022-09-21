@@ -53,7 +53,7 @@ public class Grid : MonoBehaviour
         }
         foreach (var cell in neighbors)
         {
-            Debug.Log("cell of neighbors: " + cell.Col+ "," + cell.Row);
+            Debug.Log("cell of neighbors: " + cell);
         }
     }
     

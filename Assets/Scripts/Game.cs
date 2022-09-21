@@ -37,7 +37,10 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        FindMousePos();
+        if (!uiController.mainUIGO.activeSelf)
+        {
+            SelectCell();
+        }
     }
 
     public void PlayGame()
@@ -49,7 +52,6 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         PaintCell();
-        _grid.FindNeihborsOfCell(_grid.GetCell(2,2));
     }
     
     private void CreateGrid()
@@ -79,17 +81,18 @@ public class Game : MonoBehaviour
         return cellTypes[randomResult];
     }
 
-    public void FindMousePos()
+    public void SelectCell()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float mouseGamePosX = mouseWorldPos.x + (DefaultColCount/2f);
-            float mouseGamePosY = mouseWorldPos.y + (DefaultRowCount/2f);
+            float mouseGamePosX = mouseWorldPos.x + (_grid.ColCount/2f);
+            float mouseGamePosY = mouseWorldPos.y + (_grid.RowCount/2f);
             if (mouseGamePosX >= 0 && mouseGamePosY >= 0 && mouseGamePosX < DefaultColCount && mouseGamePosY < DefaultRowCount)
             {
                 Debug.Log("mouse world pos: " + mouseWorldPos);
-                Debug.Log("selected cell: " +(int)mouseGamePosX + ", " + (int)mouseGamePosY);
+                Debug.Log("selected cell: " +(int)mouseGamePosY + ", " + (int)mouseGamePosX);
+                _grid.FindNeihborsOfCell(_grid.GetCell((int)mouseGamePosY,(int)mouseGamePosX));
             }
         }
     }

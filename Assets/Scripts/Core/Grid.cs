@@ -90,7 +90,7 @@ public class Grid : MonoBehaviour
         {
             Vector2 direction = directions[i];
             Cell cutNeighborCell = GetCell(centerCell.Col+(int)direction.x, centerCell.Row+(int)direction.y);
-            if (cutNeighborCell != null && centerCell.CellType == cutNeighborCell.CellType && !neighbors.Contains(cutNeighborCell) && cutNeighborCell != blockCell)
+            if (cutNeighborCell != null && centerCell.Item.ItemType == cutNeighborCell.Item.ItemType && !neighbors.Contains(cutNeighborCell) && cutNeighborCell != blockCell)
             {
                 neighbors.Add(cutNeighborCell);
             }

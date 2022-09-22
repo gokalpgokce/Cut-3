@@ -171,6 +171,8 @@ MonoBehaviour:
   uiController: {fileID: 320165351}
   gridPrefab: {fileID: 6842598950987772884, guid: 5bd6776ad0868264f8b46ef3d6b79fe3, type: 3}
   cellPrefab: {fileID: 3689958704372060357, guid: f148ea53610f8aa45a7c039c0c09d9e2, type: 3}
+  itemPrefab: {fileID: 7592863984339984963, guid: 54b0202871ee7f643b51affc5f1a7017, type: 3}
+  isHorizontal: 0
 --- !u!1 &320165349
 GameObject:
   m_ObjectHideFlags: 0

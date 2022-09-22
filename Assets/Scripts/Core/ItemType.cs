@@ -1,4 +1,4 @@
-﻿public enum CellType
+﻿public enum ItemType
 {
     Red,
     Blue,

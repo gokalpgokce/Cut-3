@@ -12,6 +12,7 @@ public class Game : MonoBehaviour
     [Header("Prefab References")]
     public GameObject gridPrefab;
     public GameObject cellPrefab;
+    public GameObject itemPrefab;
     private Grid _grid;
     
     public const int DefaultRowCount = 12;
@@ -47,7 +48,7 @@ public class Game : MonoBehaviour
     public void InitGame()
     {
         CreateGrid();
-        PaintCell();
+        CreateItems();
     }
     
     private void CreateGrid()
@@ -58,23 +59,26 @@ public class Game : MonoBehaviour
         _grid.Init(DefaultColCount, DefaultRowCount);
     }
 
-    public void PaintCell()
+    public void CreateItems()
     {
         for (int i = 0; i < _grid.ColCount; i++)
         {
             for (int j = 0; j < _grid.RowCount; j++)
             {
-                Cell paintedCell = _grid.GetCell(i,j);
-                paintedCell.CellType = GetRandomCellType();
+                Cell cell = _grid.GetCell(i,j);
+                
+                GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
+                cell.Item = itemGO.GetComponent<Item>();
+                cell.Item.ItemType = GetRandomItemType();
             }
         }
     }
 
-    public CellType GetRandomCellType()
+    public ItemType GetRandomItemType()
     {
-        CellType[] cellTypes = new[] {CellType.Red, CellType.Blue, CellType.Yellow, CellType.Green, CellType.Magenta};
-        int randomResult = Random.Range(0, cellTypes.Length);
-        return cellTypes[randomResult];
+        ItemType[] itemTypes = new[] {ItemType.Red, ItemType.Blue, ItemType.Yellow, ItemType.Green, ItemType.Magenta};
+        int randomResult = Random.Range(0, itemTypes.Length);
+        return itemTypes[randomResult];
     }
 
     public void SelectCell()
@@ -111,7 +115,7 @@ public class Game : MonoBehaviour
             return false;
         }
 
-        if (cell1.CellType != cell2.CellType)
+        if (cell1.Item.ItemType != cell2.Item.ItemType)
         {
             return false;
         }

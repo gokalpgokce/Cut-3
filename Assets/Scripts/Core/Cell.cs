@@ -5,51 +5,28 @@ public class Cell : MonoBehaviour
     public int Col;
     public int Row;
     public GameObject visual;
-    private CellType _cellType;
-    
+    private Item _item;
+
     public void Init(int col, int row)
     {
         Col = col;
         Row = row;
     }
 
-    public CellType CellType
+    public Item Item
     {
         get
         {
-            return _cellType;
+            return _item;
         }
         set
         {
-            _cellType = value;
-            Color color = CellTypeToColor(_cellType);
-            visual.GetComponent<SpriteRenderer>().color = color;
+            _item = value;
         }
-    }
-
-    public Color CellTypeToColor(CellType type)
-    {
-        Color color;
-        switch (type)
-        {
-            case CellType.Magenta:
-                color = Color.magenta; break;
-            case CellType.Blue:
-                color = Color.blue; break;
-            case CellType.Yellow:
-                color = Color.yellow; break;
-            case CellType.Red:
-                color = Color.red; break;
-            case CellType.Green:
-                color = Color.green; break;
-            default:
-                color = Color.black; break;
-        }
-        return color;
     }
 
     public override string ToString()
     {
-        return string.Format("col:{0},row:{1}, cellType:{2} ", Col, Row,_cellType);
+        return string.Format("col:{0},row:{1} ", Col, Row);
     }
 }

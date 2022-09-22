@@ -118,18 +118,38 @@ public class Game : MonoBehaviour
 
         List<Cell> cutLeftUpNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell1,cell2);
         List<Cell> cutRightDownNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell2,cell1);
-        for (int i = 0; i < cutLeftUpNeighborsOfCell.Count; i++)
+
+        if (cutLeftUpNeighborsOfCell.Count == 3)
         {
-            Debug.Log("Left or Top neighbors cell after cut: " + cutLeftUpNeighborsOfCell[i]);   
+            
         }
-        Debug.Log("********************************");
-        for (int i = 0; i < cutRightDownNeighborsOfCell.Count; i++)
+
+        if (cutRightDownNeighborsOfCell.Count == 3)
         {
-            Debug.Log("Right or Down neighbors cell after cut: " + cutRightDownNeighborsOfCell[i]);   
+            
         }
+        
+        
+        // for (int i = 0; i < cutLeftUpNeighborsOfCell.Count; i++)
+        // {
+        //     Debug.Log("Left or Top neighbors cell after cut: " + cutLeftUpNeighborsOfCell[i]);   
+        // }
+        // Debug.Log("********************************");
+        // for (int i = 0; i < cutRightDownNeighborsOfCell.Count; i++)
+        // {
+        //     Debug.Log("Right or Down neighbors cell after cut: " + cutRightDownNeighborsOfCell[i]);   
+        // }
 
 
         // TODO: find neighbors cell1 cell2
         return true;
+    }
+
+    public void DestroyCells(List<Cell> cells)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            
+        }
     }
 }

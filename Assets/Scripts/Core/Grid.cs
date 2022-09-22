@@ -40,20 +40,7 @@ public class Grid : MonoBehaviour
         }
         return _cells[col,row];
     }
-    
-    // public List<Cell> FindNeighborsOfCell(Cell centerCell)
-    // {
-    //     List<Cell> neighbors = new List<Cell>();
-    //     neighbors.Add(centerCell);
-    //     GetNeighborsCell(centerCell, neighbors);
-    //     for (var index = 0; index < neighbors.Count; index++)
-    //     {
-    //         var cell = neighbors[index];
-    //         GetNeighborsCell(cell, neighbors);
-    //     }
-    //     return neighbors;
-    // }
-    
+
     public List<Cell> FindCutNeighborsOfCell(Cell centerCell, Cell blockCell)
     {
         List<Cell> cutNeighbors = new List<Cell>();
@@ -66,22 +53,7 @@ public class Grid : MonoBehaviour
         }
         return cutNeighbors;
     }
-    
-    // public void GetNeighborsCell(Cell cell, List<Cell> neighbors)
-    // {
-    //     Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
-    //
-    //     for (int i = 0; i < directions.Length; i++)
-    //     {
-    //         Vector2 direction = directions[i];
-    //         Cell neighborCell = GetCell(cell.Col+(int)direction.x, cell.Row+(int)direction.y);
-    //         if (neighborCell != null && cell.CellType == neighborCell.CellType && !neighbors.Contains(neighborCell))
-    //         {
-    //             neighbors.Add(neighborCell);
-    //         }
-    //     }
-    // }
-    
+
     public void GetCutNeighborsCell(Cell centerCell, Cell blockCell, List<Cell> neighbors)
     {
         Vector2[] directions = new[] {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
@@ -90,7 +62,10 @@ public class Grid : MonoBehaviour
         {
             Vector2 direction = directions[i];
             Cell cutNeighborCell = GetCell(centerCell.Col+(int)direction.x, centerCell.Row+(int)direction.y);
-            if (cutNeighborCell != null && centerCell.Item.ItemType == cutNeighborCell.Item.ItemType && !neighbors.Contains(cutNeighborCell) && cutNeighborCell != blockCell)
+            if (cutNeighborCell != null &&
+                centerCell.IsSameType(cutNeighborCell) &&
+                !neighbors.Contains(cutNeighborCell) && 
+                cutNeighborCell != blockCell)
             {
                 neighbors.Add(cutNeighborCell);
             }

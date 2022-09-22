@@ -14,11 +14,10 @@ public class Game : MonoBehaviour
     public GameObject cellPrefab;
     public GameObject itemPrefab;
     private Grid _grid;
+    private bool isGameStarted = false;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
-    private int _countNeighbors;
-    public bool isHorizontal;
 
     // Singleton
     private static Game _instance;
@@ -32,17 +31,10 @@ public class Game : MonoBehaviour
         _instance = this;
     }
 
-    private void Update()
-    {
-        if (!uiController.mainUIGO.activeSelf)
-        {
-            SelectCell();
-        }
-    }
-
     public void PlayGame()
     {
         InitGame();
+        isGameStarted = true;
     }
     
     public void InitGame()
@@ -76,36 +68,22 @@ public class Game : MonoBehaviour
 
     public ItemType GetRandomItemType()
     {
-        ItemType[] itemTypes = new[] {ItemType.Red, ItemType.Blue, ItemType.Yellow, ItemType.Green, ItemType.Magenta};
+        ItemType[] itemTypes = new[] {ItemType.Red, ItemType.Blue, ItemType.Yellow, ItemType.Green};
         int randomResult = Random.Range(0, itemTypes.Length);
         return itemTypes[randomResult];
     }
-
-    public void SelectCell()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mouseGridPos = _grid.MousePosToGridPos(Input.mousePosition);
-            if (mouseGridPos.x >= 0 && mouseGridPos.y >= 0 && mouseGridPos.x < DefaultColCount && mouseGridPos.y < DefaultRowCount)
-            {
-                Cell testCell = _grid.GetCell((int) mouseGridPos.x, (int) mouseGridPos.y);
-                List<Cell> testList = _grid.FindCutNeighborsOfCell(testCell,null);
-                // foreach (var cell in testList)
-                // {
-                //     Debug.Log("cell of neighbors: " + cell);
-                // }
-            }
-        }
-    }
-
+    
     public void OnSwipe(Vector3 swipeStartMouse, Vector3 swipeEndMouse)
     {
-        Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
-        Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
-        isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
-        Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
-        List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
-        CheckValidCut(foundedCells[0],foundedCells[1]);
+        if (isGameStarted)
+        {
+            Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
+            Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
+            bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
+            Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
+            List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
+            CheckValidCut(foundedCells[0],foundedCells[1]); 
+        }
     }
 
     public bool CheckValidCut(Cell cell1, Cell cell2)
@@ -115,7 +93,7 @@ public class Game : MonoBehaviour
             return false;
         }
 
-        if (cell1.Item.ItemType != cell2.Item.ItemType)
+        if (!cell1.IsSameType(cell2))
         {
             return false;
         }
@@ -125,35 +103,21 @@ public class Game : MonoBehaviour
 
         if (cutLeftUpNeighborsOfCell.Count == 3)
         {
-            
+            DestroyCells(cutLeftUpNeighborsOfCell);
         }
-
         if (cutRightDownNeighborsOfCell.Count == 3)
         {
-            
+            DestroyCells(cutRightDownNeighborsOfCell);
         }
-        
-        
-        // for (int i = 0; i < cutLeftUpNeighborsOfCell.Count; i++)
-        // {
-        //     Debug.Log("Left or Top neighbors cell after cut: " + cutLeftUpNeighborsOfCell[i]);   
-        // }
-        // Debug.Log("********************************");
-        // for (int i = 0; i < cutRightDownNeighborsOfCell.Count; i++)
-        // {
-        //     Debug.Log("Right or Down neighbors cell after cut: " + cutRightDownNeighborsOfCell[i]);   
-        // }
 
-
-        // TODO: find neighbors cell1 cell2
         return true;
     }
 
     public void DestroyCells(List<Cell> cells)
     {
-        for (int i = 0; i < cells.Count; i++)
+        foreach (var cell in cells)
         {
-            
+            cell.DestroyItem();
         }
     }
 }

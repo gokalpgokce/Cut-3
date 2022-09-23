@@ -107,4 +107,30 @@ public class Grid : MonoBehaviour
         }
         return foundCells;
     }
+
+    public void FindEmptyCell()
+    {
+        for (int i = 0; i < ColCount; i++)
+        {
+            for (int j = 0; j < RowCount; j++)
+            {
+                if (_cells[i,j].Item == null)
+                {
+                    FindFallItem(_cells[i,j]);
+                }
+            }
+        }
+    }
+
+    public void FindFallItem(Cell emptyCell)
+    {
+        for (int i = emptyCell.Row; i < RowCount; i++)
+        {
+            if (_cells[emptyCell.Col,i].Item != null)
+            {
+                emptyCell.FallItem(_cells[emptyCell.Col, i], emptyCell);
+                break;
+            }
+        }
+    }
 }

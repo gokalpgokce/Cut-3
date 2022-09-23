@@ -61,6 +61,12 @@ public class Game : MonoBehaviour
                 
                 GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
                 cell.Item = itemGO.GetComponent<Item>();
+                //cell.Item.ItemType = GetRandomItemType();
+
+                if (cell.Col == 0) // test code
+                {
+                    cell.Item.ItemType = ItemType.Magenta;
+                }
                 cell.Item.ItemType = GetRandomItemType();
             }
         }
@@ -119,5 +125,6 @@ public class Game : MonoBehaviour
         {
             cell.DestroyItem();
         }
+        _grid.FindEmptyCell();
     }
 }

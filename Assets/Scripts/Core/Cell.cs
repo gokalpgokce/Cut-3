@@ -1,11 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
     public int Col;
     public int Row;
+    private const float FallSpeed = 5f;
     public GameObject visual;
-    private Item _item;
+    [SerializeField] private Item _item;
 
     public void Init(int col, int row)
     {
@@ -34,6 +36,25 @@ public class Cell : MonoBehaviour
     {
         Destroy(Item.gameObject);
         Item = null;
+    }
+
+    public void FallItem(Cell fallCell, Cell emptyCell)
+    {
+        fallCell.Item.gameObject.transform.SetParent(emptyCell.transform,true);
+        emptyCell.Item = fallCell.Item;
+        fallCell.Item = null;
+        StartCoroutine(FallRoutine(emptyCell.Item.gameObject, emptyCell.transform.position,FallSpeed));
+        
+    }
+
+    private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float speed)
+    {
+        while (fallItemGO.transform.position != endPos)
+        {
+            fallItemGO.transform.position =
+                Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
+            yield return null;
+        }
     }
 
     public override string ToString()

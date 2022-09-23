@@ -31,10 +31,15 @@ public class Game : MonoBehaviour
         _instance = this;
     }
 
+    private void IsGameStarted()
+    {
+        isGameStarted = true;
+    }
+
     public void PlayGame()
     {
         InitGame();
-        isGameStarted = true;
+        Invoke(nameof(IsGameStarted),1);
     }
     
     public void InitGame()
@@ -42,7 +47,7 @@ public class Game : MonoBehaviour
         CreateGrid();
         CreateItems();
     }
-    
+
     private void CreateGrid()
     {
         // Instantiate grid prefab under this (Game) gameobject
@@ -61,13 +66,34 @@ public class Game : MonoBehaviour
                 
                 GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
                 cell.Item = itemGO.GetComponent<Item>();
-                //cell.Item.ItemType = GetRandomItemType();
-
-                if (cell.Col == 0) // test code
-                {
-                    cell.Item.ItemType = ItemType.Magenta;
-                }
                 cell.Item.ItemType = GetRandomItemType();
+            }
+        }
+    }
+
+    public void CreateItemsForTop()
+    {
+        for (int i = 0; i < _grid.ColCount; i++)
+        {
+            for (int j = 0; j < _grid.RowCount; j++)
+            {
+                Cell cell = _grid.GetCell(i, j);
+                if (cell.Item == null)
+                {
+                    Cell topCell = _grid.GetCell(cell.Col, _grid.RowCount-1);
+                    Vector3 topCellPos = topCell.transform.position;
+                    int counter = 1;
+                    for (int k = cell.Row; k < _grid.RowCount; k++)
+                    {
+                        Cell spawnCell = _grid.GetCell(i, k);
+                        GameObject itemGO = Instantiate(itemPrefab, topCellPos + (Vector3.up * counter), Quaternion.identity,
+                            spawnCell.transform);
+                        spawnCell.Item = itemGO.GetComponent<Item>();
+                        spawnCell.Item.ItemType = GetRandomItemType();
+                        spawnCell.SpawnItem();
+                        counter++;
+                    }
+                }
             }
         }
     }
@@ -107,15 +133,24 @@ public class Game : MonoBehaviour
         List<Cell> cutLeftUpNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell1,cell2);
         List<Cell> cutRightDownNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell2,cell1);
 
+        bool isDestroy = false;
         if (cutLeftUpNeighborsOfCell.Count == 3)
         {
             DestroyCells(cutLeftUpNeighborsOfCell);
+            isDestroy = true;
         }
         if (cutRightDownNeighborsOfCell.Count == 3)
         {
             DestroyCells(cutRightDownNeighborsOfCell);
+            isDestroy = true;
         }
 
+        if (isDestroy)
+        {
+           _grid.FindEmptyCell();
+            CreateItemsForTop();
+        }
+        
         return true;
     }
 
@@ -125,6 +160,5 @@ public class Game : MonoBehaviour
         {
             cell.DestroyItem();
         }
-        _grid.FindEmptyCell();
     }
 }

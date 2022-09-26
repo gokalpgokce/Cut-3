@@ -129,7 +129,7 @@ public class Grid : MonoBehaviour
             if (_cells[emptyCell.Col,i].Item != null)
             {
                 emptyCell.FallItem(_cells[emptyCell.Col, i], emptyCell);
-                break;
+                return;
             }
         }
     }

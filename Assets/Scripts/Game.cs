@@ -58,17 +58,18 @@ public class Game : MonoBehaviour
 
     public void CreateItems()
     {
-        for (int i = 0; i < _grid.ColCount; i++)
-        {
-            for (int j = 0; j < _grid.RowCount; j++)
-            {
-                Cell cell = _grid.GetCell(i,j);
+        GridDecorator.DecorateGrid(_grid);
+        // for (int i = 0; i < _grid.ColCount; i++)
+        // {
+        //     for (int j = 0; j < _grid.RowCount; j++)
+        //     {
+        //         Cell cell = _grid.GetCell(i,j);
                 
-                GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
-                cell.Item = itemGO.GetComponent<Item>();
-                cell.Item.ItemType = GetRandomItemType();
-            }
-        }
+        //         GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
+        //         cell.Item = itemGO.GetComponent<Item>();
+        //         cell.Item.ItemType = GetRandomItemType();
+        //     }
+        // }
     }
 
     public void CreateItemsForTop()
@@ -161,4 +162,14 @@ public class Game : MonoBehaviour
             cell.DestroyItem();
         }
     }
+    
+#if UNITY_EDITOR
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 200, 50), "Re-Decorate"))
+        {
+            GridDecorator.ReDecorateGrid(_grid);
+        }
+    }
+#endif
 }

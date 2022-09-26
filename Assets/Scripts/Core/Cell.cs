@@ -34,6 +34,11 @@ public class Cell : MonoBehaviour
 
     public void DestroyItem()
     {
+        // TODO: fix here. kare gelmesi durumunda cutLeft ve cutRight iki if e de giriyor. CheckValidCut()
+        if (Item == null)
+        {
+            return;
+        }
         Destroy(Item.gameObject);
         Item = null;
     }
@@ -48,12 +53,14 @@ public class Cell : MonoBehaviour
 
     private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float speed)
     {
+        Game.Instance.FallCounter++;
         while (fallItemGO.transform.position != endPos)
         {
             fallItemGO.transform.position =
                 Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
             yield return null;
         }
+        Game.Instance.FallCounter--;
     }
 
     public void SpawnItem()

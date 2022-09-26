@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,7 +15,8 @@ public class Game : MonoBehaviour
     public GameObject cellPrefab;
     public GameObject itemPrefab;
     private Grid _grid;
-    private bool isGameStarted = false;
+    private GameState _gameState = GameState.NotStarted;
+    public int FallCounter = 0;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -31,15 +33,10 @@ public class Game : MonoBehaviour
         _instance = this;
     }
 
-    private void IsGameStarted()
-    {
-        isGameStarted = true;
-    }
-
     public void PlayGame()
     {
         InitGame();
-        Invoke(nameof(IsGameStarted),1);
+        StartCoroutine(GameRoutine());
     }
     
     public void InitGame()
@@ -70,6 +67,26 @@ public class Game : MonoBehaviour
         //         cell.Item.ItemType = GetRandomItemType();
         //     }
         // }
+    }
+
+    IEnumerator GameRoutine()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        while (true)
+        {
+            _gameState = FallCounter > 0 ? GameState.Fall : GameState.WaitingForInput;
+            
+            if (FallCounter > 0)
+            {
+                while (FallCounter > 0)
+                {
+                    yield return null;
+                }
+                CheckThreeItems();
+            }
+            yield return null;
+        }
     }
 
     public void CreateItemsForTop()
@@ -108,7 +125,7 @@ public class Game : MonoBehaviour
     
     public void OnSwipe(Vector3 swipeStartMouse, Vector3 swipeEndMouse)
     {
-        if (isGameStarted)
+        if (_gameState == GameState.WaitingForInput)
         {
             Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
             Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
@@ -148,11 +165,38 @@ public class Game : MonoBehaviour
 
         if (isDestroy)
         {
-           _grid.FindEmptyCell();
-            CreateItemsForTop();
+            ExecuteAfterDestroy();
         }
         
         return true;
+    }
+
+    public void CheckThreeItems()
+    {
+        bool isDestroy = false;
+        for (int i = 0; i < _grid.ColCount; i++)
+        {
+            for (int j = 0; j < _grid.RowCount; j++)
+            {
+                Cell cell = _grid.GetCell(i, j);
+                List<Cell> threeNeighbors = _grid.FindCutNeighborsOfCell(cell, null);
+                if (threeNeighbors.Count == 3)
+                {
+                    isDestroy = true;
+                    DestroyCells(threeNeighbors);
+                }
+            }
+        }
+        if (isDestroy)
+        {
+            ExecuteAfterDestroy();
+        }
+    }
+
+    public void ExecuteAfterDestroy()
+    {
+        _grid.Fall();
+        CreateItemsForTop();
     }
 
     public void DestroyCells(List<Cell> cells)

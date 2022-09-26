@@ -108,7 +108,7 @@ public class Grid : MonoBehaviour
         return foundCells;
     }
 
-    public void FindEmptyCell()
+    public void Fall()
     {
         for (int i = 0; i < ColCount; i++)
         {

@@ -48,6 +48,8 @@ MonoBehaviour:
   Col: 0
   Row: 0
   visual: {fileID: 4906904914821400018}
+  destroyParticle: {fileID: 1261982480518029905, guid: e4db0a4ead506334eb65ebd831346d45, type: 3}
+  _item: {fileID: 0}
 --- !u!1 &4906904914821400018
 GameObject:
   m_ObjectHideFlags: 0

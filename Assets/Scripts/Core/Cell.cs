@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
@@ -7,6 +8,7 @@ public class Cell : MonoBehaviour
     public int Row;
     private const float FallSpeed = 5f;
     public GameObject visual;
+    public GameObject destroyParticle;
     [SerializeField] private Item _item;
 
     public void Init(int col, int row)
@@ -39,6 +41,12 @@ public class Cell : MonoBehaviour
         {
             return;
         }
+        GameObject particle = Instantiate(destroyParticle,transform.position, Quaternion.identity);
+        var particleSystem = particle.GetComponent<ParticleSystem>();
+        particleSystem.Play();
+        ParticleSystem.MainModule mainModule = particleSystem.main;
+        mainModule.startColor = new ParticleSystem.MinMaxGradient(Item.ItemTypeToColor(Item.ItemType));
+        
         Destroy(Item.gameObject);
         Item = null;
     }

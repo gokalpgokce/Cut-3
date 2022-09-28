@@ -7,7 +7,7 @@ public class Cell : MonoBehaviour
     public int Col;
     public int Row;
     private const float FallSpeed = 5f;
-    public GameObject visual;
+    private const float ScalingSpeed = 3f;
     public GameObject destroyParticle;
     [SerializeField] private Item _item;
 
@@ -41,14 +41,27 @@ public class Cell : MonoBehaviour
         {
             return;
         }
+        
+        Item.visual.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        StartCoroutine(ScalingDown(Item.gameObject, Vector3.zero, ScalingSpeed));
+        
         GameObject particle = Instantiate(destroyParticle,transform.position, Quaternion.identity);
         var particleSystem = particle.GetComponent<ParticleSystem>();
         particleSystem.Play();
         ParticleSystem.MainModule mainModule = particleSystem.main;
         mainModule.startColor = new ParticleSystem.MinMaxGradient(Item.ItemTypeToColor(Item.ItemType));
-        
-        Destroy(Item.gameObject);
         Item = null;
+    }
+
+    private IEnumerator ScalingDown(GameObject destroyItemGO, Vector3 endPos, float speed)
+    {
+        while (destroyItemGO.transform.localScale != endPos)
+        {
+            destroyItemGO.transform.localScale =
+                Vector3.MoveTowards(destroyItemGO.transform.localScale, endPos, speed * Time.deltaTime);
+            yield return null;
+        }
+        Destroy(destroyItemGO);
     }
 
     public void FallItem(Cell fallCell, Cell emptyCell)

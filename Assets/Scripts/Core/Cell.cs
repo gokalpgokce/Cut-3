@@ -26,7 +26,10 @@ public class Cell : MonoBehaviour
         set
         {
             _item = value;
-            _item.visual.GetComponent<SpriteRenderer>().sortingOrder = Row;
+            if (_item != null)
+            {
+                _item.visual.GetComponent<SpriteRenderer>().sortingOrder = Row;
+            }
         }
     }
 

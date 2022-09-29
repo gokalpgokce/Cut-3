@@ -20,7 +20,7 @@ public class InputController : MonoBehaviour
             _swipeEndPos = Input.mousePosition;
             OnSwipe();
         }
-// #else
+#else
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);

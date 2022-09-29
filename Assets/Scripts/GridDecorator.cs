@@ -275,7 +275,6 @@ public static class GridDecorator
         itemGO.transform.SetParent(cell.transform, false);
         cell.Item = itemGO.GetComponent<Item>();
         cell.Item.ItemType = itemType;
-        cell.Item.visual.GetComponent<SpriteRenderer>().sortingOrder = cell.Row;
     }
     
 #if UNITY_EDITOR

@@ -108,7 +108,6 @@ public class Game : MonoBehaviour
                             spawnCell.transform);
                         spawnCell.Item = itemGO.GetComponent<Item>();
                         spawnCell.Item.ItemType = GetRandomItemType();
-                        spawnCell.Item.visual.GetComponent<SpriteRenderer>().sortingOrder = spawnCell.Row;
                         spawnCell.SpawnItem();
                         counter++;
                     }

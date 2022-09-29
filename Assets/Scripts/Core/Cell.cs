@@ -26,6 +26,7 @@ public class Cell : MonoBehaviour
         set
         {
             _item = value;
+            _item.visual.GetComponent<SpriteRenderer>().sortingOrder = Row;
         }
     }
 
@@ -68,21 +69,28 @@ public class Cell : MonoBehaviour
     {
         fallCell.Item.gameObject.transform.SetParent(emptyCell.transform,true);
         emptyCell.Item = fallCell.Item;
-        emptyCell.Item.visual.GetComponent<SpriteRenderer>().sortingOrder = emptyCell.Row;
         fallCell.Item = null;
         StartCoroutine(FallRoutine(emptyCell.Item.gameObject, emptyCell.transform.position,FallSpeed));
     }
 
     private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float speed)
     {
+        float percent = 0f;
+        float timeFactor = 1 / speed;
         while (fallItemGO.transform.position != endPos)
         {
             // fallItemGO.transform.position =
             //     Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
             
-            fallItemGO.transform.position = 
-                Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.Sin(Time.deltaTime * speed));
             
+            // fallItemGO.transform.position = 
+            //     Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.Sin(Time.deltaTime * speed));
+
+            percent += Time.deltaTime * timeFactor;
+            fallItemGO.transform.position = 
+                Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.SmoothStep(0,1,percent));
+            
+
             yield return null;
         }
     }

@@ -68,20 +68,23 @@ public class Cell : MonoBehaviour
     {
         fallCell.Item.gameObject.transform.SetParent(emptyCell.transform,true);
         emptyCell.Item = fallCell.Item;
+        emptyCell.Item.visual.GetComponent<SpriteRenderer>().sortingOrder = emptyCell.Row;
         fallCell.Item = null;
         StartCoroutine(FallRoutine(emptyCell.Item.gameObject, emptyCell.transform.position,FallSpeed));
     }
 
     private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float speed)
     {
-        Game.Instance.FallCounter++;
         while (fallItemGO.transform.position != endPos)
         {
-            fallItemGO.transform.position =
-                Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
+            // fallItemGO.transform.position =
+            //     Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
+            
+            fallItemGO.transform.position = 
+                Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.Sin(Time.deltaTime * speed));
+            
             yield return null;
         }
-        Game.Instance.FallCounter--;
     }
 
     public void SpawnItem()

@@ -67,6 +67,16 @@ public class Cell : MonoBehaviour
         }
         Destroy(destroyItemGO);
     }
+    
+    private IEnumerator ScalingUp(GameObject spawnItemGO, Vector3 endPos, float speed)
+    {
+        while (endPos != spawnItemGO.transform.localScale)
+        {
+            spawnItemGO.transform.localScale =
+                Vector3.MoveTowards(spawnItemGO.transform.localScale, endPos, speed * Time.deltaTime*2);
+            yield return null;
+        }
+    }
 
     public void FallItem(Cell fallCell, Cell emptyCell)
     {
@@ -82,24 +92,19 @@ public class Cell : MonoBehaviour
         float timeFactor = 1 / speed;
         while (fallItemGO.transform.position != endPos)
         {
-            // fallItemGO.transform.position =
-            //     Vector3.MoveTowards(fallItemGO.transform.position, endPos, speed * Time.deltaTime);
-            
-            
-            // fallItemGO.transform.position = 
-            //     Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.Sin(Time.deltaTime * speed));
-
             percent += Time.deltaTime * timeFactor;
             fallItemGO.transform.position = 
                 Vector3.MoveTowards(fallItemGO.transform.position, endPos, Mathf.SmoothStep(0,1,percent));
             
-
             yield return null;
         }
     }
 
     public void SpawnItem()
     {
+        GameObject itemGO = Item.gameObject;
+        itemGO.transform.localScale = Vector3.zero;
+        StartCoroutine(ScalingUp(itemGO, Vector3.one, ScalingSpeed));
         StartCoroutine(FallRoutine(Item.gameObject, transform.position, FallSpeed));
     }
 

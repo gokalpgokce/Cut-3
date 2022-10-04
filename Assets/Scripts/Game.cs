@@ -20,6 +20,7 @@ public class Game : MonoBehaviour
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
+    public const float swipeThreshold = 1.0f;
 
     // Singleton
     private static Game _instance;
@@ -129,10 +130,13 @@ public class Game : MonoBehaviour
         {
             Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
             Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
-            bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
-            Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
-            List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
-            CheckValidCut(foundedCells[0],foundedCells[1]); 
+            if ((swipeEnd-swipeStart).magnitude > swipeThreshold)
+            {
+                bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
+                Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;
+                List<Cell> foundedCells = _grid.FindNearCell(isHorizontal, swipeCenter);
+                CheckValidCut(foundedCells[0],foundedCells[1]); 
+            }
         }
     }
 

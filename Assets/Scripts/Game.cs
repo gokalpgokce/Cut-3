@@ -17,11 +17,11 @@ public class Game : MonoBehaviour
     public GameObject itemPrefab;
     private Grid _grid;
     private GameState _gameState = GameState.NotStarted;
-    public int FallCounter = 0;
+    public int fallCounter = 0;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
-    public const float swipeThreshold = 1.0f;
+    public const float SwipeThreshold = 1.0f;
 
     // Singleton
     private static Game _instance;
@@ -77,11 +77,11 @@ public class Game : MonoBehaviour
 
         while (true)
         {
-            _gameState = FallCounter > 0 ? GameState.Fall : GameState.WaitingForInput;
+            _gameState = fallCounter > 0 ? GameState.Fall : GameState.WaitingForInput;
             
-            if (FallCounter > 0)
+            if (fallCounter > 0)
             {
-                while (FallCounter > 0)
+                while (fallCounter > 0)
                 {
                     yield return null;
                 }
@@ -131,7 +131,7 @@ public class Game : MonoBehaviour
         {
             Vector3 swipeStart = _grid.MousePosToGridPos(swipeStartMouse);
             Vector3 swipeEnd = _grid.MousePosToGridPos(swipeEndMouse);
-            if ((swipeEnd-swipeStart).magnitude > swipeThreshold)
+            if ((swipeEnd-swipeStart).magnitude > SwipeThreshold)
             {
                 bool isHorizontal = Mathf.Abs(swipeStart.x - swipeEnd.x) > Mathf.Abs(swipeStart.y - swipeEnd.y);
                 Vector3 swipeCenter = (swipeStart + swipeEnd) / 2.0f;

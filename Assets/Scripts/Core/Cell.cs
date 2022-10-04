@@ -6,7 +6,7 @@ public class Cell : MonoBehaviour
 {
     public int Col;
     public int Row;
-    private const float FallSpeed = 5f;
+    private const float FallDuration = 2f;
     private const float ScalingSpeed = 3f;
     public GameObject destroyParticle;
     [SerializeField] private Item _item;
@@ -83,13 +83,13 @@ public class Cell : MonoBehaviour
         fallCell.Item.gameObject.transform.SetParent(emptyCell.transform,true);
         emptyCell.Item = fallCell.Item;
         fallCell.Item = null;
-        StartCoroutine(FallRoutine(emptyCell.Item.gameObject, emptyCell.transform.position,FallSpeed));
+        StartCoroutine(FallRoutine(emptyCell.Item.gameObject, emptyCell.transform.position,FallDuration));
     }
 
-    private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float speed)
+    private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float duration)
     {
         float percent = 0f;
-        float timeFactor = 1 / speed;
+        float timeFactor = 1 / duration;
         while (fallItemGO.transform.position != endPos)
         {
             percent += Time.deltaTime * timeFactor;
@@ -105,7 +105,7 @@ public class Cell : MonoBehaviour
         GameObject itemGO = Item.gameObject;
         itemGO.transform.localScale = Vector3.zero;
         StartCoroutine(ScalingUp(itemGO, Vector3.one, ScalingSpeed));
-        StartCoroutine(FallRoutine(Item.gameObject, transform.position, FallSpeed));
+        StartCoroutine(FallRoutine(Item.gameObject, transform.position, FallDuration));
     }
 
     public override string ToString()

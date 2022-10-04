@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
     // First Entry Point - Game Should Start From Here
     void Start()
     {
+        Application.targetFrameRate = 60;
         StartGame();
     }
     

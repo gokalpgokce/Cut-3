@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     [Header("Scene References")]
     public Camera cam;
     public UIController uiController;
+    public AudioManager audioManager;
     
     [Header("Prefab References")]
     public GameObject gridPrefab;
@@ -158,11 +159,13 @@ public class Game : MonoBehaviour
         bool isDestroy = false;
         if (cutLeftUpNeighborsOfCell.Count == 3)
         {
+            audioManager.PlaySwipeSound();
             DestroyCells(cutLeftUpNeighborsOfCell);
             isDestroy = true;
         }
         if (cutRightDownNeighborsOfCell.Count == 3)
         {
+            audioManager.PlaySwipeSound();
             DestroyCells(cutRightDownNeighborsOfCell);
             isDestroy = true;
         }

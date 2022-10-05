@@ -271,7 +271,7 @@ public static class GridDecorator
     
     private static void CreateItemForCell(Cell cell, ItemType itemType)
     {
-        var itemGO = GameObject.Instantiate(Game.Instance.itemPrefab);
+        GameObject itemGO = Game.Instance.itemPooler.Get();
         itemGO.transform.SetParent(cell.transform, false);
         cell.Item = itemGO.GetComponent<Item>();
         cell.Item.ItemType = itemType;

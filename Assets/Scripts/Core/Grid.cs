@@ -22,7 +22,10 @@ public class Grid : MonoBehaviour
             {
                 var cellPos = new Vector3(i, j);
                 var cellPrefab = Game.Instance.cellPrefab;
-                var cellGO = GameObject.Instantiate(cellPrefab, cellPos, Quaternion.identity, CellContainer);
+                var cellGO = Game.Instance.cellPooler.Get();
+                cellGO.transform.position = cellPos;
+                cellGO.transform.rotation = Quaternion.identity;
+                cellGO.transform.parent = CellContainer;
                 var cell = cellGO.GetComponent<Cell>();
                 cell.Init(i, j);
                 _cells[i, j] = cell;

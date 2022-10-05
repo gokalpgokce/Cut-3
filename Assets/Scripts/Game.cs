@@ -10,6 +10,9 @@ public class Game : MonoBehaviour
     public Camera cam;
     public UIController uiController;
     public AudioManager audioManager;
+    public ObjectPooler itemPooler;
+    public ObjectPooler particlePooler;
+    public ObjectPooler cellPooler;
     
     [Header("Prefab References")]
     public GameObject gridPrefab;
@@ -37,6 +40,9 @@ public class Game : MonoBehaviour
 
     public void PlayGame()
     {
+        itemPooler.WarmUp();
+        cellPooler.WarmUp();
+        particlePooler.WarmUp();
         InitGame();
         StartCoroutine(GameRoutine());
     }
@@ -58,17 +64,6 @@ public class Game : MonoBehaviour
     public void CreateItems()
     {
         GridDecorator.DecorateGrid(_grid);
-        // for (int i = 0; i < _grid.ColCount; i++)
-        // {
-        //     for (int j = 0; j < _grid.RowCount; j++)
-        //     {
-        //         Cell cell = _grid.GetCell(i,j);
-                
-        //         GameObject itemGO = GameObject.Instantiate(itemPrefab,cell.transform);
-        //         cell.Item = itemGO.GetComponent<Item>();
-        //         cell.Item.ItemType = GetRandomItemType();
-        //     }
-        // }
     }
 
     IEnumerator GameRoutine()
@@ -106,8 +101,10 @@ public class Game : MonoBehaviour
                     for (int k = cell.Row; k < _grid.RowCount; k++)
                     {
                         Cell spawnCell = _grid.GetCell(i, k);
-                        GameObject itemGO = Instantiate(itemPrefab, topCellPos + (Vector3.up * counter), Quaternion.identity,
-                            spawnCell.transform);
+                        GameObject itemGO = itemPooler.Get();
+                        itemGO.transform.position = topCellPos + (Vector3.up * counter);
+                        itemGO.transform.rotation = Quaternion.identity;
+                        itemGO.transform.parent = spawnCell.transform;
                         spawnCell.Item = itemGO.GetComponent<Item>();
                         spawnCell.Item.ItemType = GetRandomItemType();
                         spawnCell.SpawnItem();

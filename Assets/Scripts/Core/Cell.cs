@@ -48,13 +48,22 @@ public class Cell : MonoBehaviour
         
         Item.visual.GetComponent<SpriteRenderer>().sortingOrder = -1;
         StartCoroutine(ScalingDown(Item.gameObject, Vector3.zero, ScalingSpeed));
-        
-        GameObject particle = Instantiate(destroyParticle,transform.position, Quaternion.identity);
+
+        GameObject particle = Game.Instance.particlePooler.Get();
+        particle.transform.position = transform.position;
+        particle.transform.rotation = Quaternion.identity;
+        StartCoroutine(WaitParticle(particle));
         var particleSystem = particle.GetComponent<ParticleSystem>();
         particleSystem.Play();
         ParticleSystem.MainModule mainModule = particleSystem.main;
         mainModule.startColor = new ParticleSystem.MinMaxGradient(Item.ItemTypeToColor(Item.ItemType));
         Item = null;
+    }
+
+    private IEnumerator WaitParticle(GameObject particle)
+    {
+        yield return new WaitForSeconds(0.2f);
+        Game.Instance.particlePooler.Put(particle);
     }
 
     private IEnumerator ScalingDown(GameObject destroyItemGO, Vector3 endPos, float speed)
@@ -65,7 +74,7 @@ public class Cell : MonoBehaviour
                 Vector3.MoveTowards(destroyItemGO.transform.localScale, endPos, speed * Time.deltaTime);
             yield return null;
         }
-        Destroy(destroyItemGO);
+        Game.Instance.itemPooler.Put(destroyItemGO);
     }
     
     private IEnumerator ScalingUp(GameObject spawnItemGO, Vector3 endPos, float speed)

@@ -97,6 +97,7 @@ public class Cell : MonoBehaviour
 
     private IEnumerator FallRoutine(GameObject fallItemGO, Vector3 endPos, float duration)
     {
+        Game.Instance.fallCounter++;
         float percent = 0f;
         float timeFactor = 1 / duration;
         while (fallItemGO.transform.position != endPos)
@@ -107,6 +108,7 @@ public class Cell : MonoBehaviour
             
             yield return null;
         }
+        Game.Instance.fallCounter--;
     }
 
     public void SpawnItem()

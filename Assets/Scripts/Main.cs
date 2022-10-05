@@ -16,11 +16,16 @@ public class Main : MonoBehaviour
     {
         CalculateOrthographicSize();
         ShowMainUI();
+        HideGameUI();
     }
     
     private void ShowMainUI()
     {
-        _uiController.ShowMainUI();
+        _uiController.ShowMainUI(false);
+    }
+    private void HideGameUI()
+    {
+        _uiController.HideGameUI();
     }
     
     private void CalculateOrthographicSize()

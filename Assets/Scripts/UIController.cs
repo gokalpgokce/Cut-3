@@ -1,29 +1,43 @@
+using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    //private GameState _gameState;
+    public Main _main;
+    private int _score;
     [Header("Scene References")]
     public GameObject mainUIGO;
     public GameObject gameUIGO;
+    public GameObject pausedUIGO;
+    public TextMeshProUGUI scoreText;
     
-    public void ShowMainUI(bool isMenu)
+    public void IncScore()
     {
-        mainUIGO.SetActive(true);
-        if (isMenu)
-        {
-            mainUIGO.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        else
-        {
-            mainUIGO.transform.GetChild(1).gameObject.SetActive(false);
-        }
+        _score += 3;
+        scoreText.text = "Score: " + _score;
     }
 
+    public void ShowMainUI()
+    {
+        mainUIGO.SetActive(true);
+    }
+    
     public void HideMainUI()
     {
         mainUIGO.SetActive(false);
+    }
+
+    public void ShowPausedUI()
+    {
+        pausedUIGO.SetActive(true);
+        _main.PauseGame();
+    }
+    
+    public void HidePausedUI()
+    {
+        pausedUIGO.SetActive(false);
     }
     
     public void ShowGameUI()
@@ -43,15 +57,23 @@ public class UIController : MonoBehaviour
         Game.Instance.PlayGame();
     }
 
-    public void OnMenuClicked()
+    public void OnPauseClicked()
     {
         HideGameUI();
-        ShowMainUI(true);
+        ShowPausedUI();
     }
 
-    public void OnResumeClicked()
+    public void OnYesClicked()
     {
-        HideMainUI();
+        HidePausedUI();
+        HideGameUI();
+        ShowMainUI();
+        _main.ExitGame();
+    }
+    public void OnNoClicked()
+    {
+        HidePausedUI();
         ShowGameUI();
+        _main.ResumeGame();
     }
 }

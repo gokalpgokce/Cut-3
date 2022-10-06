@@ -32,17 +32,28 @@ public class Game : MonoBehaviour
     {
         get { return _instance; }
     }
+
+    public GameState GameState
+    {
+        get { return _gameState; }
+        set { _gameState = value; }
+    }
     
     void Awake()
     {
         _instance = this;
     }
 
+    public void WarmUpPools()
+    {
+        Debug.Log("warm up pools");
+        cellPooler.WarmUp();
+        itemPooler.WarmUp();
+        particlePooler.WarmUp();
+    }
+
     public void PlayGame()
     {
-        itemPooler.WarmUp();
-        cellPooler.WarmUp();
-        particlePooler.WarmUp();
         InitGame();
         StartCoroutine(GameRoutine());
     }
@@ -55,14 +66,21 @@ public class Game : MonoBehaviour
 
     private void CreateGrid()
     {
+        Debug.Log("create grid");
         // Instantiate grid prefab under this (Game) gameobject
         var gridGO = GameObject.Instantiate(gridPrefab, Vector3.zero, Quaternion.identity, transform);
         _grid = gridGO.GetComponent<Grid>();
         _grid.Init(DefaultColCount, DefaultRowCount);
     }
 
+    public void DestroyGrid()
+    {
+        Destroy(_grid.gameObject);
+    }
+
     public void CreateItems()
     {
+        Debug.Log("create items");
         GridDecorator.DecorateGrid(_grid);
     }
 
@@ -72,7 +90,10 @@ public class Game : MonoBehaviour
 
         while (true)
         {
-            _gameState = fallCounter > 0 ? GameState.Fall : GameState.WaitingForInput;
+            if (_gameState != GameState.Paused)
+            {
+                _gameState = fallCounter > 0 ? GameState.Fall : GameState.WaitingForInput;
+            }
             
             if (fallCounter > 0)
             {
@@ -111,6 +132,24 @@ public class Game : MonoBehaviour
                         counter++;
                     }
                 }
+            }
+        }
+    }
+    
+    public void AllObjectsPutPool()
+    {
+        for (int i = 0; i < _grid.ColCount; i++)
+        {
+            for (int j = 0; j < _grid.RowCount; j++)
+            {
+                Cell cell = _grid.GetCell(i, j);
+                itemPooler.Put(cell.Item.gameObject);
+                cell.Item = null;
+                cell.transform.position = Vector3.zero;
+                cell.Col = 0;
+                cell.Row = 0;
+                cellPooler.Put(cell.gameObject);
+                //particlePooler.Put(cell.destroyParticle);
             }
         }
     }
@@ -159,12 +198,14 @@ public class Game : MonoBehaviour
             audioManager.PlaySwipeSound();
             DestroyCells(cutLeftUpNeighborsOfCell);
             isDestroy = true;
+            uiController.IncScore();
         }
         if (cutRightDownNeighborsOfCell.Count == 3)
         {
             audioManager.PlaySwipeSound();
             DestroyCells(cutRightDownNeighborsOfCell);
             isDestroy = true;
+            uiController.IncScore();
         }
 
         if (isDestroy)
@@ -188,6 +229,7 @@ public class Game : MonoBehaviour
                 {
                     isDestroy = true;
                     DestroyCells(threeNeighbors);
+                    uiController.IncScore();
                 }
             }
         }
@@ -210,6 +252,8 @@ public class Game : MonoBehaviour
             cell.DestroyItem();
         }
     }
+
+    
     
 #if UNITY_EDITOR
     void OnGUI()

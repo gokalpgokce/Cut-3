@@ -2,5 +2,6 @@
 {
      NotStarted,
      WaitingForInput,
-     Fall
+     Fall,
+     Paused
 };

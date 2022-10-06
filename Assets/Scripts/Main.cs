@@ -17,11 +17,29 @@ public class Main : MonoBehaviour
         CalculateOrthographicSize();
         ShowMainUI();
         HideGameUI();
+        Game.Instance.WarmUpPools();
+    }
+
+    public void PauseGame()
+    {
+        Game.Instance.GameState = GameState.Paused;
+    }
+
+    public void ResumeGame()
+    {
+        Game.Instance.GameState = GameState.WaitingForInput;
+    }
+
+    public void ExitGame()
+    {
+        Game.Instance.AllObjectsPutPool();
+        Game.Instance.DestroyGrid();
+        Game.Instance.GameState = GameState.NotStarted;
     }
     
     private void ShowMainUI()
     {
-        _uiController.ShowMainUI(false);
+        _uiController.ShowMainUI();
     }
     private void HideGameUI()
     {

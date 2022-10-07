@@ -30,6 +30,9 @@ public class ObjectPooler : MonoBehaviour
 
     public void Put(GameObject go)
     {
+        go.transform.position = Vector3.zero;
+        go.transform.rotation = Quaternion.identity;
+        go.transform.localScale = Vector3.one;
         pooledObjects.Add(go);
         go.transform.parent = gameObject.transform;
         go.SetActive(false);

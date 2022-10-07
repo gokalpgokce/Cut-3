@@ -6,17 +6,15 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public Main _main;
-    private int _score;
     [Header("Scene References")]
     public GameObject mainUIGO;
     public GameObject gameUIGO;
     public GameObject pausedUIGO;
     public TextMeshProUGUI scoreText;
     
-    public void IncScore()
+    public void UpdateScoreText(int score)
     {
-        _score += 3;
-        scoreText.text = "Score: " + _score;
+        scoreText.text = "Score: " + score;
     }
 
     public void ShowMainUI()
@@ -68,7 +66,7 @@ public class UIController : MonoBehaviour
         HidePausedUI();
         HideGameUI();
         ShowMainUI();
-        _main.ExitGame();
+        _main.FinishGame();
     }
     public void OnNoClicked()
     {

@@ -8,7 +8,6 @@ public class Cell : MonoBehaviour
     public int Row;
     private const float FallDuration = 2f;
     private const float ScalingSpeed = 3f;
-    public GameObject destroyParticle;
     [SerializeField] private Item _item;
 
     public void Init(int col, int row)

@@ -30,11 +30,9 @@ public class Main : MonoBehaviour
         Game.Instance.GameState = GameState.WaitingForInput;
     }
 
-    public void ExitGame()
+    public void FinishGame()
     {
-        Game.Instance.AllObjectsPutPool();
-        Game.Instance.DestroyGrid();
-        Game.Instance.GameState = GameState.NotStarted;
+        Game.Instance.ExitGame();
     }
     
     private void ShowMainUI()

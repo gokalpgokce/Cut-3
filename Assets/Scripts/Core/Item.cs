@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.U2D;
 
 public class Item : MonoBehaviour
 { 
@@ -14,9 +15,34 @@ public class Item : MonoBehaviour
         set
         {
             _itemType = value;
-            Color color = ItemTypeToColor(_itemType);
-            visual.GetComponent<SpriteRenderer>().color = color;
+            Sprite sprite = ItemTypeToSprite(_itemType);
+            visual.GetComponent<SpriteRenderer>().sprite = sprite;
         }
+    }
+    
+    public Sprite ItemTypeToSprite(ItemType type)
+    {
+        Sprite sprite;
+        switch (type)
+        {
+            case ItemType.Blue:
+                sprite = ResourceManager.Instance.itemSprites[0]; break;
+            case ItemType.Darkblue:
+                sprite = ResourceManager.Instance.itemSprites[1]; break;
+            case ItemType.Green:
+                sprite = ResourceManager.Instance.itemSprites[2]; break;
+            case ItemType.Orange:
+                sprite = ResourceManager.Instance.itemSprites[3]; break;
+            case ItemType.Purple:
+                sprite = ResourceManager.Instance.itemSprites[4]; break;
+            case ItemType.Red:
+                sprite = ResourceManager.Instance.itemSprites[5]; break;
+            case ItemType.Yellow:
+                sprite = ResourceManager.Instance.itemSprites[6]; break;
+            default:
+                sprite = ResourceManager.Instance.itemSprites[0]; break;
+        }
+        return sprite;
     }
 
     public Color ItemTypeToColor(ItemType type)
@@ -24,18 +50,22 @@ public class Item : MonoBehaviour
         Color color;
         switch (type)
         {
-            case ItemType.Magenta:
-                color = Color.magenta; break;
             case ItemType.Blue:
-                color = Color.blue; break;
-            case ItemType.Yellow:
-                color = Color.yellow; break;
-            case ItemType.Red:
-                color = Color.red; break;
+                color = new Color(0, 215, 252); break;
+            case ItemType.Darkblue:
+                color = new Color(0, 63, 221); break;
             case ItemType.Green:
-                color = Color.green; break;
+                color = new Color(0, 235, 0); break;
+            case ItemType.Orange:
+                color = new Color(255, 109, 0); break;
+            case ItemType.Purple:
+                color = new Color(238, 0, 255); break;
+            case ItemType.Red:
+                color = new Color(255, 0, 0); break;
+            case ItemType.Yellow:
+                color = new Color(255, 218, 0); break;
             default:
-                color = Color.black; break;
+                color = new Color(0, 0, 0); break;
         }
         return color;
     }

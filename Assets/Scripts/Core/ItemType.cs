@@ -4,5 +4,7 @@
     Blue,
     Yellow,
     Green,
-    Magenta
+    Purple,
+    Darkblue,
+    Orange,
 };

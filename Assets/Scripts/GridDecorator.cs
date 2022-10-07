@@ -245,7 +245,7 @@ public static class GridDecorator
             }
         }
         
-        var allTypes = new List<ItemType>() { ItemType.Red, ItemType.Blue, ItemType.Yellow, ItemType.Green, ItemType.Magenta };
+        var allTypes = new List<ItemType>() { ItemType.Red, ItemType.Blue, ItemType.Yellow, ItemType.Green, ItemType.Purple, ItemType.Darkblue, ItemType.Orange };
         var possibleTypes = new List<ItemType>(allTypes);
         
         foreach (var itemType in shapeNeighbourItemTypes)

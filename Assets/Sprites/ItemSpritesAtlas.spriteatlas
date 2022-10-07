@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites
+  m_Name: ItemSpritesAtlas
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -20,31 +20,7 @@ SpriteAtlas:
       readable: 0
       crunchedCompression: 0
       sRGB: 1
-    platformSettings:
-    - serializedVersion: 3
-      m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 256
-      m_ResizeAlgorithm: 0
-      m_TextureFormat: -1
-      m_TextureCompression: 1
-      m_CompressionQuality: 50
-      m_CrunchedCompression: 0
-      m_AllowsAlphaSplitting: 0
-      m_Overridden: 0
-      m_AndroidETC2FallbackOverride: 0
-      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
-    - serializedVersion: 3
-      m_BuildTarget: Standalone
-      m_MaxTextureSize: 256
-      m_ResizeAlgorithm: 0
-      m_TextureFormat: 12
-      m_TextureCompression: 1
-      m_CompressionQuality: 50
-      m_CrunchedCompression: 0
-      m_AllowsAlphaSplitting: 0
-      m_Overridden: 0
-      m_AndroidETC2FallbackOverride: 0
-      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    platformSettings: []
     packingSettings:
       serializedVersion: 2
       padding: 4
@@ -78,5 +54,5 @@ SpriteAtlas:
   - tiles_darkblue
   - tiles_blue
   m_RenderDataMap: {}
-  m_Tag: Sprites
+  m_Tag: ItemSpritesAtlas
   m_IsVariant: 0

@@ -75,12 +75,19 @@ public class Grid : MonoBehaviour
         }
     }
 
+    public Vector3 MousePosToWorlPos(Vector3 pos)
+    {
+        var position = Game.Instance.cam.ScreenToWorldPoint(pos);
+        position.z = 0;
+        return position;
+    }
+
     public Vector3 MousePosToGridPos(Vector3 mousePos)
     {
-        Vector3 mouseWorldPos = Game.Instance.cam.ScreenToWorldPoint(mousePos);
-        float mouseGamePosX = mouseWorldPos.x + (ColCount/2f);
-        float mouseGamePosY = mouseWorldPos.y + (RowCount/2f);
-        return new Vector3(mouseGamePosX, mouseGamePosY,0f);
+        Vector3 mouseWorldPos = MousePosToWorlPos(mousePos);
+        mouseWorldPos.x = mouseWorldPos.x + (ColCount/2f);
+        mouseWorldPos.y = mouseWorldPos.y + (RowCount/2f);
+        return mouseWorldPos;
     }
 
     public List<Cell> FindNearCell(bool isHorizontal, Vector3 position)

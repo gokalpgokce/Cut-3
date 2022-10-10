@@ -21,6 +21,7 @@ public class Game : MonoBehaviour
     private Grid _grid;
     private GameState _gameState = GameState.NotStarted;
     private Coroutine gameCoroutine;
+    public ParticleSystem trailParticle;
     public int fallCounter = 0;
     private int _score;
     
@@ -95,7 +96,7 @@ public class Game : MonoBehaviour
 
     IEnumerator GameRoutine()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return null;
 
         while (true)
         {
@@ -187,6 +188,25 @@ public class Game : MonoBehaviour
                 CheckValidCut(foundedCells[0],foundedCells[1]); 
             }
         }
+    }
+
+    public void StartTrail()
+    {
+        trailParticle.transform.position = _grid.MousePosToWorlPos(Input.mousePosition);
+        trailParticle.gameObject.SetActive(true);
+        trailParticle.Play();
+    }
+
+    public void UpdateTrail()
+    {
+        Vector3 trailPos = _grid.MousePosToWorlPos(Input.mousePosition);
+        trailParticle.transform.position = trailPos;
+    }
+
+    public void EndTrail()
+    {
+        trailParticle.Stop();
+        trailParticle.gameObject.SetActive(false);
     }
 
     public bool CheckValidCut(Cell cell1, Cell cell2)

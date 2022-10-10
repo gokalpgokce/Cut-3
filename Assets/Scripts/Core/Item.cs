@@ -39,6 +39,8 @@ public class Item : MonoBehaviour
                 sprite = ResourceManager.Instance.itemSprites[5]; break;
             case ItemType.Yellow:
                 sprite = ResourceManager.Instance.itemSprites[6]; break;
+            case ItemType.Special:
+                sprite = ResourceManager.Instance.itemSprites[7]; break;
             default:
                 sprite = ResourceManager.Instance.itemSprites[0]; break;
         }

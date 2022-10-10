@@ -7,4 +7,5 @@
     Purple,
     Darkblue,
     Orange,
+    Special,
 };

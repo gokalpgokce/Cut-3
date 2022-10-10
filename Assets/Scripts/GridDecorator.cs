@@ -217,7 +217,8 @@ public static class GridDecorator
                     continue;
                 }
                 
-                var determinedType = DetermineItemTypeForCells(grid, new List<Cell>() { cell });
+                // var determinedType = DetermineItemTypeForCells(grid, new List<Cell>() { cell });
+                var determinedType = ItemType.Special;
                 CreateItemForCell(cell, determinedType);
             }
         }

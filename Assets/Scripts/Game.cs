@@ -321,14 +321,11 @@ public class Game : MonoBehaviour
         {
             Cell cell = _grid.GetCell(i, 0);
 
-            if (cell.Item.ItemType == ItemType.Special)
-            {
-                cell.DestroyItem();
-                specialItemsCount--;
-            }
+            if (cell.Item.ItemType != ItemType.Special) continue;
+            cell.DestroyItem();
+            specialItemsCount--;
+            UpdateSpecialUI();
         }
-
-        UpdateSpecialUI();
     }
 
     

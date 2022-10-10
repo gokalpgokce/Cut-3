@@ -216,9 +216,10 @@ public static class GridDecorator
                 {
                     continue;
                 }
+
+                ItemType determinedType;
+                determinedType = gridRow == 0 ? DetermineItemTypeForCells(grid, new List<Cell>() { cell }) : ItemType.Special;
                 
-                // var determinedType = DetermineItemTypeForCells(grid, new List<Cell>() { cell });
-                var determinedType = ItemType.Special;
                 CreateItemForCell(cell, determinedType);
             }
         }

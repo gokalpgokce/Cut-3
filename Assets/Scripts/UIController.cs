@@ -11,10 +11,16 @@ public class UIController : MonoBehaviour
     public GameObject gameUIGO;
     public GameObject pausedUIGO;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI specialItemsText;
     
     public void UpdateScoreText(int score)
     {
         scoreText.text = "Score: " + score;
+    }
+
+    public void UpdateSpecialItemText(int count)
+    {
+        specialItemsText.text = "Special Items: " + count;
     }
 
     public void ShowMainUI()

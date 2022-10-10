@@ -22,6 +22,7 @@ public class Game : MonoBehaviour
     private GameState _gameState = GameState.NotStarted;
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
+    public int specialItemsCount;
     public int fallCounter = 0;
     private int _score;
     
@@ -74,6 +75,28 @@ public class Game : MonoBehaviour
     {
         CreateGrid();
         CreateItems();
+        SpecialItemsInBeginning();
+    }
+
+    public void SpecialItemsInBeginning()
+    {
+        for (int i = 0; i < _grid.ColCount; i++)
+        {
+            for (int j = 0; j < _grid.RowCount; j++)
+            {
+                Cell cell = _grid.GetCell(i, j);
+                if (cell.Item.ItemType == ItemType.Special)
+                {
+                    specialItemsCount++;
+                }
+            }
+        }
+        uiController.UpdateSpecialItemText(specialItemsCount);
+    }
+
+    public void UpdateSpecialUI()
+    {
+        uiController.UpdateSpecialItemText(specialItemsCount);
     }
 
     private void CreateGrid()
@@ -275,6 +298,7 @@ public class Game : MonoBehaviour
     {
         _grid.Fall();
         CreateItemsForTop();
+        CheckSpecialItemInBottom();
     }
 
     public void DestroyCells(List<Cell> cells)
@@ -289,6 +313,22 @@ public class Game : MonoBehaviour
     {
         _score += 3;
         uiController.UpdateScoreText(_score);
+    }
+
+    public void CheckSpecialItemInBottom()
+    {
+        for (int i = 0; i < _grid.ColCount; i++)
+        {
+            Cell cell = _grid.GetCell(i, 0);
+
+            if (cell.Item.ItemType == ItemType.Special)
+            {
+                cell.DestroyItem();
+                specialItemsCount--;
+            }
+        }
+
+        UpdateSpecialUI();
     }
 
     

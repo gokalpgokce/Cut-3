@@ -59,12 +59,14 @@ public class UIController : MonoBehaviour
         HideMainUI();
         ShowGameUI();
         Game.Instance.PlayGame();
+        Game.Instance.ClickSound();
     }
 
     public void OnPauseClicked()
     {
         HideGameUI();
         ShowPausedUI();
+        Game.Instance.ClickSound();
     }
 
     public void OnYesClicked()
@@ -73,11 +75,13 @@ public class UIController : MonoBehaviour
         HideGameUI();
         ShowMainUI();
         _main.FinishGame();
+        Game.Instance.ClickSound();
     }
     public void OnNoClicked()
     {
         HidePausedUI();
         ShowGameUI();
         _main.ResumeGame();
+        Game.Instance.ClickSound();
     }
 }

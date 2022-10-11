@@ -328,6 +328,11 @@ public class Game : MonoBehaviour
         }
     }
 
+    public void ClickSound()
+    {
+        audioManager.PlayClickSound();
+    }
+
     
     
 #if UNITY_EDITOR

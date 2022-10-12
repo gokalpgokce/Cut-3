@@ -120,13 +120,11 @@ public class UIController : MonoBehaviour
     {
         if (isToggleOn())
         {
-            Debug.Log("unmute");
             AudioListener.volume = 1;
             Game.Instance.ClickSound();
         }
         else
         {
-            Debug.Log("mute");
             AudioListener.volume = 0;
         }
     }

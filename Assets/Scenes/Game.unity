@@ -800,6 +800,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 320165350}
     m_Modifications:
+    - target: {fileID: 767184188374853970, guid: f983c2355bba00f43a0ce07d45c6fda0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3d0c4965d39365b49ae20f0052d9290d, type: 3}
     - target: {fileID: 1767224948212390342, guid: f983c2355bba00f43a0ce07d45c6fda0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2008,6 +2012,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnOptionsClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 5831611399417741323, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3d0c4965d39365b49ae20f0052d9290d, type: 3}
     - target: {fileID: 8600473688443894948, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2019,7 +2027,7 @@ PrefabInstance:
     - target: {fileID: 8726394325866614026, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a7bb1d3b1c2d3354fa0a316d5d97f521, type: 3}
+      objectReference: {fileID: 21300000, guid: 3d0c4965d39365b49ae20f0052d9290d, type: 3}
     - target: {fileID: 8726394326273468301, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_Name
       value: MainUI

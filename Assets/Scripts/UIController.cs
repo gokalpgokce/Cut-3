@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
     public GameObject mainUIGO;
     public GameObject gameUIGO;
     public GameObject pausedUIGO;
+    public GameObject optionsUIGO;
+    public Toggle soundToggle;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI specialItemsText;
     
@@ -53,6 +55,16 @@ public class UIController : MonoBehaviour
     {
         gameUIGO.SetActive(false);
     }
+
+    public void ShowOptionsUI()
+    {
+        optionsUIGO.SetActive(true);
+    }
+
+    public void HideOptionsUI()
+    {
+        optionsUIGO.SetActive(false);
+    }
     
     public void OnPlayClicked()
     {
@@ -66,6 +78,20 @@ public class UIController : MonoBehaviour
     {
         HideGameUI();
         ShowPausedUI();
+        Game.Instance.ClickSound();
+    }
+
+    public void OnBackClicked()
+    {
+        ShowMainUI();
+        HideOptionsUI();
+        Game.Instance.ClickSound();
+    }
+
+    public void OnOptionsClicked()
+    {
+        ShowOptionsUI();
+        HideMainUI();
         Game.Instance.ClickSound();
     }
 
@@ -83,5 +109,25 @@ public class UIController : MonoBehaviour
         ShowGameUI();
         _main.ResumeGame();
         Game.Instance.ClickSound();
+    }
+
+    public bool isToggleOn()
+    {
+        return soundToggle.isOn;
+    }
+
+    public void ToggleClicked()
+    {
+        if (isToggleOn())
+        {
+            Debug.Log("unmute");
+            AudioListener.volume = 1;
+            Game.Instance.ClickSound();
+        }
+        else
+        {
+            Debug.Log("mute");
+            AudioListener.volume = 0;
+        }
     }
 }

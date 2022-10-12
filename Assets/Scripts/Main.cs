@@ -9,6 +9,8 @@ public class Main : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+        _uiController.background.gameObject.SetActive(true);
+        _uiController.CalculateBackGround();
         StartGame();
     }
     

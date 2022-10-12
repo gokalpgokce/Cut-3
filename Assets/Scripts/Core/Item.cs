@@ -19,6 +19,16 @@ public class Item : MonoBehaviour
             visual.GetComponent<SpriteRenderer>().sprite = sprite;
         }
     }
+
+    public bool CanSwipe()
+    {
+        return _itemType != ItemType.Special;
+    }
+
+    public bool CanDestroy()
+    {
+        return _itemType != ItemType.Special;
+    }
     
     public Sprite ItemTypeToSprite(ItemType type)
     {

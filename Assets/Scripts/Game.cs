@@ -250,6 +250,11 @@ public class Game : MonoBehaviour
         {
             return false;
         }
+        
+        if (!cell1.Item.CanSwipe())
+        {
+            return false;
+        }
 
         List<Cell> cutLeftUpNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell1,cell2);
         List<Cell> cutRightDownNeighborsOfCell = _grid.FindCutNeighborsOfCell(cell2,cell1);
@@ -286,6 +291,10 @@ public class Game : MonoBehaviour
             for (int j = 0; j < _grid.RowCount; j++)
             {
                 Cell cell = _grid.GetCell(i, j);
+                if (cell.Item == null || !cell.Item.CanDestroy())
+                {
+                    continue;
+                }
                 List<Cell> threeNeighbors = _grid.FindCutNeighborsOfCell(cell, null);
                 if (threeNeighbors.Count == 3)
                 {

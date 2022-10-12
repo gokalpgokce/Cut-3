@@ -135,7 +135,13 @@ public class Game : MonoBehaviour
                 {
                     yield return null;
                 }
-                CheckThreeItems();
+
+                bool isDestroyThree = DestroyThreeItems();
+                bool isSpecialItem = DestroySpecialItem();
+                if (isDestroyThree || isSpecialItem)
+                {
+                    ExecuteAfterDestroy();
+                }
             }
             yield return null;
         }
@@ -272,7 +278,7 @@ public class Game : MonoBehaviour
         return true;
     }
 
-    public void CheckThreeItems()
+    public bool DestroyThreeItems()
     {
         bool isDestroy = false;
         for (int i = 0; i < _grid.ColCount; i++)
@@ -289,17 +295,14 @@ public class Game : MonoBehaviour
                 }
             }
         }
-        if (isDestroy)
-        {
-            ExecuteAfterDestroy();
-        }
+        
+        return isDestroy;
     }
 
     public void ExecuteAfterDestroy()
     {
         _grid.Fall();
         CreateItemsForTop();
-        CheckSpecialItemInBottom();
     }
 
     public void DestroyCells(List<Cell> cells)
@@ -316,23 +319,25 @@ public class Game : MonoBehaviour
         uiController.UpdateScoreText(_score);
     }
 
-    public void CheckSpecialItemInBottom()
+    public bool DestroySpecialItem()
     {
+        bool isDestroy = false;
         for (int i = 0; i < _grid.ColCount; i++)
         {
             Cell cell = _grid.GetCell(i, 0);
-
-            if (cell.Item.ItemType != ItemType.Special) continue;
+            
+            if (cell.Item == null || cell.Item.ItemType != ItemType.Special) continue;
+            isDestroy = true;
             cell.DestroyItem();
             PlaySpecialParticles(cell.transform.position);
             specialItemsCount--;
             UpdateSpecialUI();
         }
+        return isDestroy;
     }
 
     public void PlaySpecialParticles(Vector3 pos)
     {
-        //specialParticle.gameObject.SetActive(true);
         specialParticle.transform.position = pos;
         specialParticle.Play();
     }

@@ -22,6 +22,7 @@ public class Game : MonoBehaviour
     private GameState _gameState = GameState.NotStarted;
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
+    public ParticleSystem specialParticle;
     public int specialItemsCount;
     public int fallCounter = 0;
     private int _score;
@@ -323,9 +324,17 @@ public class Game : MonoBehaviour
 
             if (cell.Item.ItemType != ItemType.Special) continue;
             cell.DestroyItem();
+            PlaySpecialParticles(cell.transform.position);
             specialItemsCount--;
             UpdateSpecialUI();
         }
+    }
+
+    public void PlaySpecialParticles(Vector3 pos)
+    {
+        //specialParticle.gameObject.SetActive(true);
+        specialParticle.transform.position = pos;
+        specialParticle.Play();
     }
 
     public void ClickSound()

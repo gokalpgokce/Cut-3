@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
     public int specialItemsCount;
+    public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
     
@@ -93,12 +94,24 @@ public class Game : MonoBehaviour
                 }
             }
         }
+
+        specialItemsTotal = specialItemsCount;
         uiController.UpdateSpecialItemText(specialItemsCount);
     }
 
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
+        if (specialItemsTotal/2 == specialItemsCount)
+        {
+            GameWin();
+        }
+    }
+
+    public void GameWin()
+    {
+        Debug.Log("WIN!!!!");
+        //
     }
 
     private void CreateGrid()

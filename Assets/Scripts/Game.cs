@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
     public ObjectPooler itemPooler;
     public ObjectPooler particlePooler;
     public ObjectPooler cellPooler;
+    public ObjectPooler specialPooler;
     
     [Header("Prefab References")]
     public GameObject gridPrefab;
@@ -22,7 +23,6 @@ public class Game : MonoBehaviour
     private GameState _gameState = GameState.NotStarted;
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
-    public ParticleSystem specialParticle;
     public int specialItemsCount;
     public int fallCounter = 0;
     private int _score;
@@ -54,6 +54,7 @@ public class Game : MonoBehaviour
         cellPooler.WarmUp();
         itemPooler.WarmUp();
         particlePooler.WarmUp();
+        specialPooler.WarmUp();
     }
 
     public void PlayGame()
@@ -338,17 +339,10 @@ public class Game : MonoBehaviour
             if (cell.Item == null || cell.Item.ItemType != ItemType.Special) continue;
             isDestroy = true;
             cell.DestroyItem();
-            PlaySpecialParticles(cell.transform.position);
             specialItemsCount--;
             UpdateSpecialUI();
         }
         return isDestroy;
-    }
-
-    public void PlaySpecialParticles(Vector3 pos)
-    {
-        specialParticle.transform.position = pos;
-        specialParticle.Play();
     }
 
     public void ClickSound()

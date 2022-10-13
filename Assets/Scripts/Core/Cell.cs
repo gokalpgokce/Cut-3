@@ -47,7 +47,16 @@ public class Cell : MonoBehaviour
         
         Item.visual.GetComponent<SpriteRenderer>().sortingOrder = -1;
         StartCoroutine(ScalingDown(Item.gameObject, Vector3.zero, ScalingSpeed));
+        if (Item.ItemType == ItemType.Special)
+        {
+            SpecialParticlesPlay();
+            return;
+        }
+        ParticlesPlay();
+    }
 
+    private void ParticlesPlay()
+    {
         GameObject particle = Game.Instance.particlePooler.Get();
         particle.transform.position = transform.position;
         particle.transform.rotation = Quaternion.identity;
@@ -58,11 +67,27 @@ public class Cell : MonoBehaviour
         mainModule.startColor = new ParticleSystem.MinMaxGradient(Item.ItemTypeToColor(Item.ItemType));
         Item = null;
     }
+    
+    private void SpecialParticlesPlay()
+    {
+        GameObject particle = Game.Instance.specialPooler.Get();
+        particle.transform.position = transform.position;
+        particle.transform.rotation = Quaternion.identity;
+        StartCoroutine(WaitSpecialParticle(particle));
+        var particleSystem = particle.GetComponent<ParticleSystem>();
+        particleSystem.Play();
+        Item = null;
+    }
 
     private IEnumerator WaitParticle(GameObject particle)
     {
         yield return new WaitForSeconds(0.2f);
         Game.Instance.particlePooler.Put(particle);
+    }
+    private IEnumerator WaitSpecialParticle(GameObject particle)
+    {
+        yield return new WaitForSeconds(2f);
+        Game.Instance.specialPooler.Put(particle);
     }
 
     private IEnumerator ScalingDown(GameObject destroyItemGO, Vector3 endPos, float speed)

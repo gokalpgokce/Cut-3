@@ -136,7 +136,7 @@ public class Game : MonoBehaviour
                 {
                     yield return null;
                 }
-
+                Game.Instance.DropSound();
                 bool isDestroyThree = DestroyThreeItems();
                 bool isSpecialItem = DestroySpecialItem();
                 if (isDestroyThree || isSpecialItem)
@@ -348,6 +348,16 @@ public class Game : MonoBehaviour
     public void ClickSound()
     {
         audioManager.PlayClickSound();
+    }
+
+    public void ExplosionSound()
+    {
+        audioManager.PlayExplosionSound();
+    }
+
+    public void DropSound()
+    {
+        audioManager.PlayDropSound();
     }
 
     

@@ -75,6 +75,7 @@ public class Cell : MonoBehaviour
         particle.transform.rotation = Quaternion.identity;
         StartCoroutine(WaitSpecialParticle(particle));
         var particleSystem = particle.GetComponent<ParticleSystem>();
+        Game.Instance.ExplosionSound();
         particleSystem.Play();
         Item = null;
     }

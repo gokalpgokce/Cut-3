@@ -91,6 +91,7 @@ public class UIController : MonoBehaviour
         HideGameUI();
         ShowMainUI();
         _main.FinishGame();
+        Game.Instance.WinParticleStop();
         Game.Instance.ClickSound();
     }
 

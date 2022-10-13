@@ -23,6 +23,7 @@ public class Game : MonoBehaviour
     private GameState _gameState = GameState.NotStarted;
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
+    public ParticleSystem winParticle;
     public int specialItemsCount;
     public int specialItemsTotal;
     public int fallCounter = 0;
@@ -113,6 +114,7 @@ public class Game : MonoBehaviour
         Debug.Log("WIN!!!!");
         _gameState = GameState.Paused;
         uiController.ShowWinUI();
+        WinParticlePlay();
     }
 
     private void CreateGrid()
@@ -372,6 +374,18 @@ public class Game : MonoBehaviour
     public void DropSound()
     {
         audioManager.PlayDropSound();
+    }
+
+    public void WinParticlePlay()
+    {
+        winParticle.gameObject.SetActive(true);
+        winParticle.Play();
+    }
+
+    public void WinParticleStop()
+    {
+        winParticle.Stop();
+        winParticle.gameObject.SetActive(false);
     }
 
     

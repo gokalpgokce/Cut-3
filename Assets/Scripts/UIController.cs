@@ -15,23 +15,6 @@ public class UIController : MonoBehaviour
     public SpriteRenderer background;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI specialItemsText;
-
-
-    public void CalculateBackGround()
-    {
-        float screenRatio = (float)Screen.width / Screen.height;
-        float targetRatio = background.bounds.size.x / background.bounds.size.y;
-        
-        if(screenRatio >= targetRatio)
-        {
-            Camera.main.orthographicSize = background.bounds.size.y / 2;
-        }
-        else
-        {
-            float differenceInSize = targetRatio / screenRatio;
-            Camera.main.orthographicSize = background.bounds.size.y / 2 * differenceInSize;
-        }
-    }
     
     public void UpdateScoreText(int score)
     {

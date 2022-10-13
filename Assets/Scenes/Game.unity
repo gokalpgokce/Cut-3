@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pooledObjects: []
-  amountPool: 108
+  amountPool: 15
   prefabToPool: {fileID: 9030934024267833924, guid: 07568994725bb4e4cab3047b0a6bd353, type: 3}
 --- !u!4 &377161835
 Transform:

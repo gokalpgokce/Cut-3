@@ -102,7 +102,7 @@ public class Game : MonoBehaviour
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
-        if (specialItemsTotal/2 == specialItemsCount)
+        if (specialItemsTotal-1 == specialItemsCount)
         {
             GameWin();
         }
@@ -111,7 +111,8 @@ public class Game : MonoBehaviour
     public void GameWin()
     {
         Debug.Log("WIN!!!!");
-        //
+        _gameState = GameState.Paused;
+        uiController.ShowWinUI();
     }
 
     private void CreateGrid()

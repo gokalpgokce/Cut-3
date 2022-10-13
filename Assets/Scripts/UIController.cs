@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     public GameObject gameUIGO;
     public GameObject pausedUIGO;
     public GameObject optionsUIGO;
+    public GameObject WinUIGO;
     public Toggle soundToggle;
     public SpriteRenderer background;
     public TextMeshProUGUI scoreText;
@@ -66,12 +67,30 @@ public class UIController : MonoBehaviour
     {
         optionsUIGO.SetActive(false);
     }
+
+    public void ShowWinUI()
+    {
+        WinUIGO.SetActive(true);
+    }
+
+    public void HideWinUI()
+    {
+        WinUIGO.SetActive(false);
+    }
     
     public void OnPlayClicked()
     {
         HideMainUI();
         ShowGameUI();
         Game.Instance.PlayGame();
+        Game.Instance.ClickSound();
+    }
+    public void OnReplayClicked()
+    {
+        HideWinUI();
+        HideGameUI();
+        ShowMainUI();
+        _main.FinishGame();
         Game.Instance.ClickSound();
     }
 

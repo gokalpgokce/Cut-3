@@ -216,10 +216,22 @@ public static class GridDecorator
                 {
                     continue;
                 }
-
                 ItemType determinedType;
-                determinedType = gridRow == 0 ? DetermineItemTypeForCells(grid, new List<Cell>() { cell }) : ItemType.Special;
+                if (gridRow == 0)
+                {
+                    determinedType = DetermineItemTypeForCells(grid, new List<Cell>() {cell});
+                }
+                else
+                {
+                    var typePicker = Random.Range(0,2);
+                    Debug.Log("picker: " + typePicker);
+                    determinedType = typePicker == 0 ? ItemType.Special : DetermineItemTypeForCells(grid, new List<Cell>() {cell});
+                }
                 
+                //ItemType determinedType;
+                //determinedType = gridRow == 0 ? DetermineItemTypeForCells(grid, new List<Cell>() { cell }) : ItemType.Special;
+                Debug.Log("type " + determinedType);
+                Debug.Log("cell " + cell);
                 CreateItemForCell(cell, determinedType);
             }
         }

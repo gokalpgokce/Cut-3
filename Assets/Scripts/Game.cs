@@ -103,8 +103,13 @@ public class Game : MonoBehaviour
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
-        if (specialItemsCount != 0) return;
-        GameWin();
+        if (specialItemsTotal-1 == specialItemsCount)
+        {
+            GameWin();
+        }
+        
+        // if (specialItemsCount != 0) return;
+        // GameWin();
     }
 
     public void GameWin()

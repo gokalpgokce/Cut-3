@@ -103,17 +103,17 @@ public class Game : MonoBehaviour
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
-        if (specialItemsTotal-1 == specialItemsCount)
-        {
-            GameWin();
-        }
+        if (specialItemsCount != 0) return;
+        GameWin();
     }
 
     public void GameWin()
     {
-        Debug.Log("WIN!!!!");
         _gameState = GameState.Paused;
+        specialItemsCount = 0;
+        specialItemsTotal = 0;
         uiController.ShowWinUI();
+        PlayFireworksSound();
         WinParticlePlay();
     }
 
@@ -376,16 +376,34 @@ public class Game : MonoBehaviour
         audioManager.PlayDropSound();
     }
 
+    public void PlayFireworksSound()
+    {
+        audioManager.PlayFireworksSound();
+    }
+
+    public void StopFireworksSound()
+    {
+        audioManager.StopFireworksSound();
+    }
+
     public void WinParticlePlay()
     {
         winParticle.gameObject.SetActive(true);
         winParticle.Play();
+        StartCoroutine(WaitWinParticles());
     }
 
     public void WinParticleStop()
     {
         winParticle.Stop();
         winParticle.gameObject.SetActive(false);
+    }
+
+    IEnumerator WaitWinParticles()
+    {
+        yield return new WaitForSeconds(10f);
+        WinParticleStop();
+        StopFireworksSound();
     }
 
     

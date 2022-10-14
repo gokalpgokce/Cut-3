@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     private AudioClip _clickClip;
     private AudioClip _dropClip;
     private AudioClip _explosionClip;
+    private AudioClip _fireworksClip;
     
     private void Start()
     {
@@ -17,6 +18,7 @@ public class AudioManager : MonoBehaviour
         _clickClip = Resources.Load<AudioClip>("Click");
         _dropClip = Resources.Load<AudioClip>("Drop");
         _explosionClip = Resources.Load<AudioClip>("SpecialExp");
+        _fireworksClip = Resources.Load<AudioClip>("Fireworks");
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -36,5 +38,16 @@ public class AudioManager : MonoBehaviour
     public void PlayExplosionSound()
     {
         audioSource.PlayOneShot(_explosionClip);
+    }
+    public void PlayFireworksSound()
+    {
+        audioSource.clip = _fireworksClip;
+        audioSource.Play();
+    }
+
+    public void StopFireworksSound()
+    {
+        audioSource.Stop();
+        audioSource.clip = null;
     }
 }

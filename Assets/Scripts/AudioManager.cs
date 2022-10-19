@@ -23,16 +23,6 @@ public class AudioManager : MonoBehaviour
         sfxAudioSource = GetComponent<AudioSource>();
     }
 
-    public void PlayMenuSound()
-    {
-        menuAudioSource.Play();
-    }
-    
-    public void StopMenuSound()
-    {
-        menuAudioSource.Stop();
-    }
-
     public void PlaySwipeSound()
     {
         sfxAudioSource.PlayOneShot(_swipeClip);

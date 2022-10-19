@@ -28,6 +28,7 @@ public class Game : MonoBehaviour
     public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
+    public int dropSoundCount = 0;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -103,13 +104,13 @@ public class Game : MonoBehaviour
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
-        if (specialItemsTotal-1 == specialItemsCount)
-        {
-            GameWin();
-        }
+        // if (specialItemsTotal-1 == specialItemsCount)
+        // {
+        //     GameWin();
+        // }
         
-        // if (specialItemsCount != 0) return;
-        // GameWin();
+        if (specialItemsCount != 0) return;
+        GameWin();
     }
 
     public void GameWin()
@@ -157,7 +158,7 @@ public class Game : MonoBehaviour
                 {
                     yield return null;
                 }
-                Game.Instance.DropSound();
+                // Game.Instance.DropSound();
                 bool isDestroyThree = DestroyThreeItems();
                 bool isSpecialItem = DestroySpecialItem();
                 if (isDestroyThree || isSpecialItem)
@@ -378,7 +379,9 @@ public class Game : MonoBehaviour
 
     public void DropSound()
     {
+        if (dropSoundCount != 0) return;
         audioManager.PlayDropSound();
+        dropSoundCount++;
     }
 
     public void PlayFireworksSound()

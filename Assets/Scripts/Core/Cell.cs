@@ -123,12 +123,19 @@ public class Cell : MonoBehaviour
     private void Fall(GameObject fallGO, float to, float time)
     {
         Game.Instance.fallCounter++;
+        Invoke("DropSoundEffect",0.3f);
         LeanTween.moveY(fallGO, to, time).setEaseOutBounce().setOnComplete(FallCounterDescent);
+    }
+
+    public void DropSoundEffect()
+    {
+        Game.Instance.DropSound();
     }
 
     private void FallCounterDescent()
     {
         Game.Instance.fallCounter--;
+        Game.Instance.dropSoundCount = 0;
     }
 
     public void SpawnItem()

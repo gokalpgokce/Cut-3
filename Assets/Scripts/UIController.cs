@@ -94,6 +94,7 @@ public class UIController : MonoBehaviour
         Game.Instance.WinParticleStop();
         Game.Instance.StopFireworksSound();
         Game.Instance.ClickSound();
+        Game.Instance.PlaySoundtrack();
     }
 
     public void OnPauseClicked()

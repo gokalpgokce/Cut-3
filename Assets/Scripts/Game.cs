@@ -104,13 +104,13 @@ public class Game : MonoBehaviour
     public void UpdateSpecialUI()
     {
         uiController.UpdateSpecialItemText(specialItemsCount);
-        // if (specialItemsTotal-1 == specialItemsCount)
-        // {
-        //     GameWin();
-        // }
+        if (specialItemsTotal-1 == specialItemsCount)
+        {
+            GameWin();
+        }
         
-        if (specialItemsCount != 0) return;
-        GameWin();
+        // if (specialItemsCount != 0) return;
+        // GameWin();
     }
 
     public void GameWin()
@@ -119,6 +119,7 @@ public class Game : MonoBehaviour
         specialItemsCount = 0;
         specialItemsTotal = 0;
         uiController.ShowWinUI();
+        audioManager.StopMenuSound();
         PlayFireworksSound();
         WinParticlePlay();
     }
@@ -365,6 +366,11 @@ public class Game : MonoBehaviour
             UpdateSpecialUI();
         }
         return isDestroy;
+    }
+
+    public void PlaySoundtrack()
+    {
+        audioManager.PlayMenuSound();
     }
 
     public void ClickSound()

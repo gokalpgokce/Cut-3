@@ -19,6 +19,7 @@ public class Main : MonoBehaviour
         ShowMainUI();
         HideGameUI();
         Game.Instance.WarmUpPools();
+        _uiController.UpdateBoosterText(3);
     }
 
     public void PauseGame()

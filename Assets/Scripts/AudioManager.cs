@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     private AudioClip _dropClip;
     private AudioClip _explosionClip;
     private AudioClip _fireworksClip;
+    private int _dropSoundFrame;
     
     private void Start()
     {
@@ -43,6 +44,11 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayDropSound()
     {
+        if (_dropSoundFrame == Time.frameCount)
+        {
+            return;
+        }
+        _dropSoundFrame = Time.frameCount;
         sfxAudioSource.PlayOneShot(_dropClip);
     }
     public void PlayExplosionSound()

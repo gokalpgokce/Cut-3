@@ -14,17 +14,17 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Down();
+            Down(Input.mousePosition);
         }
 
         if (Input.GetMouseButton(0))
         {
-            Hold();
+            Hold(Input.mousePosition);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            Up();
+            Up(Input.mousePosition);
         }
 #else
 
@@ -33,17 +33,17 @@ public class InputController : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                Down();
+                Down(touch.position);
             }
 
             if (touch.phase == TouchPhase.Moved)
             {
-                Hold();
+                Hold(touch.position);
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
-                Up();
+                Up(touch.position);
             }
         }
 #endif
@@ -56,27 +56,30 @@ public class InputController : MonoBehaviour
         _swipeEndPos = Vector3.zero;
     }
 
-    public void Down()
+    public void Down(Vector3 position)
     {
-        _swipeStartPos = Input.mousePosition;
-        if (Game.Instance.GameState == GameState.WaitingForInput)
+        if (Game.Instance.GameState == GameState.WaitingForInput && Game.Instance.IsMouseOverGrid(position))
         {
-            Game.Instance.StartTrail();
+            Game.Instance.StartTrail(position);
             _isTrailOn = true;
+            _swipeStartPos = position;
         }
     }
-    public void Hold()
+    public void Hold(Vector3 position)
     {
         if (_isTrailOn && Game.Instance.GameState == GameState.WaitingForInput)
         {
-            Game.Instance.UpdateTrail();
+            Game.Instance.UpdateTrail(position);
         }
     }
-    public void Up()
+    public void Up(Vector3 position)
     {
-        _isTrailOn = false;
-        _swipeEndPos = Input.mousePosition;
-        OnSwipe();
-        Game.Instance.EndTrail();
+        if (_isTrailOn)
+        {
+            _isTrailOn = false;
+            _swipeEndPos = position;
+            OnSwipe();
+            Game.Instance.EndTrail();
+        }
     }
 }

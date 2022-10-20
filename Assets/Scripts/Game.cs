@@ -28,7 +28,6 @@ public class Game : MonoBehaviour
     public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
-    public int dropSoundCount = 0;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -244,16 +243,16 @@ public class Game : MonoBehaviour
         }
     }
 
-    public void StartTrail()
+    public void StartTrail(Vector3 position)
     {
-        trailParticle.transform.position = _grid.MousePosToWorlPos(Input.mousePosition);
+        trailParticle.transform.position = _grid.MousePosToWorlPos(position);
         trailParticle.gameObject.SetActive(true);
         trailParticle.Play();
     }
 
-    public void UpdateTrail()
+    public void UpdateTrail(Vector3 position)
     {
-        Vector3 trailPos = _grid.MousePosToWorlPos(Input.mousePosition);
+        Vector3 trailPos = _grid.MousePosToWorlPos(position);
         trailParticle.transform.position = trailPos;
     }
 
@@ -368,6 +367,16 @@ public class Game : MonoBehaviour
         return isDestroy;
     }
 
+    public bool IsMouseOverGrid(Vector3 position)
+    {
+        var pos = _grid.MousePosToGridPos(position);
+        if (pos.x < 0 || pos.x >= _grid.ColCount || pos.y < 0 || pos.y >= _grid.RowCount)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void PlaySoundtrack()
     {
         audioManager.PlayMenuSound();
@@ -385,9 +394,7 @@ public class Game : MonoBehaviour
 
     public void DropSound()
     {
-        if (dropSoundCount != 0) return;
         audioManager.PlayDropSound();
-        dropSoundCount++;
     }
 
     public void PlayFireworksSound()

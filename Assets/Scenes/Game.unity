@@ -193,7 +193,6 @@ MonoBehaviour:
   specialItemsCount: 0
   specialItemsTotal: 0
   fallCounter: 0
-  dropSoundCount: 0
 --- !u!1 &151427635
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,7 +1835,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124894872}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a82116d4c2a213349a6497e43d6f3766, type: 3}

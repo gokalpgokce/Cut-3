@@ -135,7 +135,6 @@ public class Cell : MonoBehaviour
     private void FallCounterDescent()
     {
         Game.Instance.fallCounter--;
-        Game.Instance.dropSoundCount = 0;
     }
 
     public void SpawnItem()

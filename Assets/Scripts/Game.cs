@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
@@ -28,6 +29,7 @@ public class Game : MonoBehaviour
     public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
+    private int _booster = 3;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -158,7 +160,6 @@ public class Game : MonoBehaviour
                 {
                     yield return null;
                 }
-                // Game.Instance.DropSound();
                 bool isDestroyThree = DestroyThreeItems();
                 bool isSpecialItem = DestroySpecialItem();
                 if (isDestroyThree || isSpecialItem)
@@ -375,6 +376,26 @@ public class Game : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void Booster(Vector3 position)
+    {
+        if (_booster != 0)
+        {
+            var boosterPos = _grid.MousePosToGridPos(position);
+            Cell cell = _grid.GetCell((int)boosterPos.x, (int)boosterPos.y);
+            cell.DestroyItem();
+            ExecuteAfterDestroy();
+            _booster--;
+            uiController.boosterToggle.isOn = false;
+            uiController.UpdateBoosterText(_booster);  
+        }
+        uiController.boosterToggle.isOn = false;
+    }
+
+    public bool IsBoosterOn()
+    {
+        return uiController.IsBoosterToggleOn();
     }
 
     public void PlaySoundtrack()

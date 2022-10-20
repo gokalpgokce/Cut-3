@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
@@ -60,9 +61,16 @@ public class InputController : MonoBehaviour
     {
         if (Game.Instance.GameState == GameState.WaitingForInput && Game.Instance.IsMouseOverGrid(position))
         {
-            Game.Instance.StartTrail(position);
-            _isTrailOn = true;
-            _swipeStartPos = position;
+            if (Game.Instance.IsBoosterOn())
+            {
+                Game.Instance.Booster(position);
+            }
+            else
+            {
+                Game.Instance.StartTrail(position);
+                _isTrailOn = true;
+                _swipeStartPos = position; 
+            }
         }
     }
     public void Hold(Vector3 position)

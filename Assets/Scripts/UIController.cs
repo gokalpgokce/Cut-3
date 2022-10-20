@@ -13,10 +13,11 @@ public class UIController : MonoBehaviour
     public GameObject optionsUIGO;
     public GameObject WinUIGO;
     public Toggle soundToggle;
+    public Toggle boosterToggle;
     public SpriteRenderer background;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI specialItemsText;
-    
+
     public void UpdateScoreText(int score)
     {
         scoreText.text = "Score: " + score;
@@ -26,7 +27,7 @@ public class UIController : MonoBehaviour
     {
         specialItemsText.text = "Special Items: " + count;
     }
-
+    
     public void ShowMainUI()
     {
         mainUIGO.SetActive(true);
@@ -95,6 +96,7 @@ public class UIController : MonoBehaviour
         Game.Instance.StopFireworksSound();
         Game.Instance.ClickSound();
         Game.Instance.PlaySoundtrack();
+        boosterToggle.isOn = false;
     }
 
     public void OnPauseClicked()
@@ -150,5 +152,15 @@ public class UIController : MonoBehaviour
         {
             AudioListener.volume = 0;
         }
+    }
+
+    public bool IsBoosterToggleOn()
+    {
+        return boosterToggle.isOn;
+    }
+
+    public void UpdateBoosterText(int booster)
+    {
+        boosterToggle.GetComponentInChildren<Text>().text = "Booster: " + booster;
     }
 }

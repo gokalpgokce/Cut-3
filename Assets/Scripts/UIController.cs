@@ -163,4 +163,17 @@ public class UIController : MonoBehaviour
     {
         boosterToggle.GetComponentInChildren<Text>().text = "Booster: " + booster;
     }
+
+    public void UpdateBoosterColor()
+    {
+        if (boosterToggle.isOn)
+        {
+            boosterToggle.GetComponentInChildren<Image>().color = Color.green;
+        }
+        else
+        {
+            boosterToggle.GetComponentInChildren<Image>().color = Color.yellow;
+        }
+        
+    }
 }

@@ -7,7 +7,6 @@ public class ColorPicker : MonoBehaviour
     public void BlueButton()
     {
         Game.Instance.ColorPicker(ItemType.Blue);
-        Debug.Log("blue button basildi");
     }
     public void DarkBlueButton()
     {

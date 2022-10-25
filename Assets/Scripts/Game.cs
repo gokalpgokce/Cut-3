@@ -30,8 +30,8 @@ public class Game : MonoBehaviour
     public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
-    public int _booster = 3;
-    public int _colorChange = 2;
+    public int booster = 3;
+    public int colorChange = 2;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -375,33 +375,45 @@ public class Game : MonoBehaviour
         return true;
     }
 
-    public void Booster(Vector3 position)
+    public void DestroyBooster(Vector3 position)
     {
-        if (_booster != 0)
+        if (booster != 0)
         {
             var boosterPos = _grid.MousePosToGridPos(position);
             Cell cell = _grid.GetCell((int)boosterPos.x, (int)boosterPos.y);
-            cell.DestroyItem();
-            ExecuteAfterDestroy();
-            _booster--;
-            uiController.boosterToggle.isOn = false;
-            uiController.UpdateBoosterText(_booster);  
+            if (cell.Item.ItemType != ItemType.Special)
+            {
+                cell.DestroyItem();
+                ExecuteAfterDestroy();
+                booster--;
+                uiController.boosterToggle.isOn = false;
+                uiController.UpdateBoosterText(booster);
+            }
+
+            if (booster == 0)
+            {
+                uiController.boosterToggle.interactable = false;
+            }
         }
         uiController.boosterToggle.isOn = false;
     }
 
-    public void ChangeColor(Vector3 position)
+    public void ChangeColorBooster(Vector3 position)
     {
-        if (_colorChange != 0)
+        if (colorChange != 0)
         {
             var colorPos = _grid.MousePosToGridPos(position);
             Cell cell = _grid.GetCell((int) colorPos.x, (int) colorPos.y);
             cell.ChangeItemColor(selectedType);
-            _colorChange--;
+            colorChange--;
             uiController.colorToggle.isOn = false;
-            uiController.UpdateColorText(_colorChange);
+            uiController.UpdateColorText(colorChange);
             DestroyThreeItems();
             ExecuteAfterDestroy();
+            if (colorChange == 0)
+            {
+                uiController.colorToggle.interactable = false;
+            }
         }
         uiController.colorToggle.isOn = false;
     }
@@ -409,10 +421,9 @@ public class Game : MonoBehaviour
     public void ColorPicker(ItemType type)
     {
         selectedType = type;
-        Debug.Log("selected type: " + selectedType);
     }
 
-    public bool IsBoosterOn()
+    public bool IsDestroyBoosterOn()
     {
         return uiController.IsBoosterToggleOn();
     }

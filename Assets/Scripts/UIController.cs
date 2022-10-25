@@ -12,8 +12,11 @@ public class UIController : MonoBehaviour
     public GameObject pausedUIGO;
     public GameObject optionsUIGO;
     public GameObject WinUIGO;
+    public GameObject colorBoostUI;
+    public GameObject colorPickerUI;
     public Toggle soundToggle;
     public Toggle boosterToggle;
+    public Toggle colorToggle;
     public SpriteRenderer background;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI specialItemsText;
@@ -78,7 +81,17 @@ public class UIController : MonoBehaviour
     {
         WinUIGO.SetActive(false);
     }
-    
+
+    public void ShowColorPicker()
+    {
+        colorPickerUI.SetActive(true);
+    }
+
+    public void HideColorPicker()
+    {
+        colorPickerUI.SetActive(false);
+    }
+
     public void OnPlayClicked()
     {
         HideMainUI();
@@ -159,21 +172,35 @@ public class UIController : MonoBehaviour
         return boosterToggle.isOn;
     }
 
+    public bool IsColorBoostToggleOn()
+    {
+        return colorToggle.isOn;
+    }
+
     public void UpdateBoosterText(int booster)
     {
         boosterToggle.GetComponentInChildren<Text>().text = "Booster: " + booster;
     }
+    public void UpdateColorText(int color)
+    {
+        colorToggle.GetComponentInChildren<Text>().text = "Color: " + color;
+    }
 
     public void UpdateBoosterColor()
     {
-        if (boosterToggle.isOn)
+        boosterToggle.GetComponentInChildren<Image>().color = boosterToggle.isOn ? Color.green : Color.yellow;
+    }
+    public void UpdateColorColor()
+    {
+        if (colorToggle.isOn)
         {
-            boosterToggle.GetComponentInChildren<Image>().color = Color.green;
+            colorToggle.GetComponentInChildren<Image>().color = Color.green;
+            ShowColorPicker();
         }
         else
         {
-            boosterToggle.GetComponentInChildren<Image>().color = Color.yellow;
+            colorToggle.GetComponentInChildren<Image>().color = Color.yellow;
+            HideColorPicker();
         }
-        
     }
 }

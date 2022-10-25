@@ -127,6 +127,11 @@ public class Cell : MonoBehaviour
         LeanTween.moveY(fallGO, to, time).setEaseOutBounce().setOnComplete(FallCounterDescent);
     }
 
+    public void ChangeItemColor(ItemType type)
+    {
+        Item.ItemType = type;
+    }
+
     public void DropSoundEffect()
     {
         Game.Instance.DropSound();

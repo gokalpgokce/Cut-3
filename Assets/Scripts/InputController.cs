@@ -61,9 +61,13 @@ public class InputController : MonoBehaviour
     {
         if (Game.Instance.GameState == GameState.WaitingForInput && Game.Instance.IsMouseOverGrid(position))
         {
-            if (Game.Instance.IsBoosterOn())
+            if (Game.Instance.IsBoosterOn() && !Game.Instance.IsColorBoostOn())
             {
                 Game.Instance.Booster(position);
+            }
+            else if (!Game.Instance.IsBoosterOn() && Game.Instance.IsColorBoostOn())
+            {
+                Game.Instance.ChangeColor(position);
             }
             else
             {

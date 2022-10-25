@@ -25,11 +25,13 @@ public class Game : MonoBehaviour
     private Coroutine gameCoroutine;
     public ParticleSystem trailParticle;
     public ParticleSystem winParticle;
+    public ItemType selectedType;
     public int specialItemsCount;
     public int specialItemsTotal;
     public int fallCounter = 0;
     private int _score;
-    private int _booster = 3;
+    public int _booster = 3;
+    public int _colorChange = 2;
     
     public const int DefaultRowCount = 12;
     public const int DefaultColCount = 9;
@@ -315,7 +317,7 @@ public class Game : MonoBehaviour
                     continue;
                 }
                 List<Cell> threeNeighbors = _grid.FindCutNeighborsOfCell(cell, null);
-                if (threeNeighbors.Count == 3)
+                if (threeNeighbors.Count is 3 or 6 or 9 or 12)
                 {
                     isDestroy = true;
                     DestroyCells(threeNeighbors);
@@ -388,9 +390,36 @@ public class Game : MonoBehaviour
         uiController.boosterToggle.isOn = false;
     }
 
+    public void ChangeColor(Vector3 position)
+    {
+        if (_colorChange != 0)
+        {
+            var colorPos = _grid.MousePosToGridPos(position);
+            Cell cell = _grid.GetCell((int) colorPos.x, (int) colorPos.y);
+            cell.ChangeItemColor(selectedType);
+            _colorChange--;
+            uiController.colorToggle.isOn = false;
+            uiController.UpdateColorText(_colorChange);
+            DestroyThreeItems();
+            ExecuteAfterDestroy();
+        }
+        uiController.colorToggle.isOn = false;
+    }
+
+    public void ColorPicker(ItemType type)
+    {
+        selectedType = type;
+        Debug.Log("selected type: " + selectedType);
+    }
+
     public bool IsBoosterOn()
     {
         return uiController.IsBoosterToggleOn();
+    }
+
+    public bool IsColorBoostOn()
+    {
+        return uiController.IsColorBoostToggleOn();
     }
 
     public void PlaySoundtrack()

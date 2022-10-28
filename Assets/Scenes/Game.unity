@@ -194,8 +194,8 @@ MonoBehaviour:
   specialItemsCount: 0
   specialItemsTotal: 0
   fallCounter: 0
-  _booster: 3
-  _colorChange: 2
+  booster: 3
+  colorChange: 2
 --- !u!1 &151427635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2283,45 +2283,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 320165350}
     m_Modifications:
-    - target: {fileID: 2102295701313249812, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 320165351}
-    - target: {fileID: 2102295701313249812, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnResumeClicked
-      objectReference: {fileID: 0}
     - target: {fileID: 4147942023137878832, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 320165351}
-    - target: {fileID: 4147942023137878832, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnOptionsClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 5831611399417741323, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3d0c4965d39365b49ae20f0052d9290d, type: 3}
-    - target: {fileID: 8600473688443894948, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: abc731c2deb2ce64f865a73d8b6294e2, type: 3}
     - target: {fileID: 8726394325866614025, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 320165351}
-    - target: {fileID: 8726394325866614026, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3d0c4965d39365b49ae20f0052d9290d, type: 3}
     - target: {fileID: 8726394326273468301, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_Name
       value: MainUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 8726394326273468301, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8726394326273468302, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_Pivot.x
@@ -2406,10 +2378,6 @@ PrefabInstance:
     - target: {fileID: 8726394326273468302, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9103861560438021693, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
-      propertyPath: m_text
-      value: RESUME
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f91cf589d41d034d855b900fd695914, type: 3}
